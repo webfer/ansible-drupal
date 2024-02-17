@@ -25,18 +25,17 @@
     recurse: no
     mode: "u=rwx,g=rx,o=rx"
   when: not result.stat.exists
-
 # Create the needed shared files.
-- name: Creating the needed shared files
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    remote_src: true
-    mode: "u=rw,g=r,o=r"
-  # We use with_items instead of loop because we have an Ansible version less
-  # than 2.5.
-  loop:
-    - {
-        src: "{{ ansistrano_release_path.stdout }}/.htpasswd",
-        dest: "{{ ansistrano_shared_path }}/.htpasswd",
-      }
+# - name: Creating the needed shared files
+# copy:
+# src: "{{ item.src }}"
+# dest: "{{ item.dest }}"
+# remote_src: true
+# mode: "u=rw,g=r,o=r"
+# We use with_items instead of loop because we have an Ansible version less
+# than 2.5.
+# with_items:
+# - {
+# src: "{{ ansistrano_release_path.stdout }}/.htpasswd",
+# dest: "{{ ansistrano_shared_path }}/.htpasswd",
+# }

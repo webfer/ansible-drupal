@@ -6,13 +6,13 @@
     ansistrano_shared_paths:
       - "private"
       - "web/sites/default/files"
-    ansistrano_shared_files:
-      - ".htpasswd"
-      - "web/sites/default/settings.local.php"
+    # ansistrano_shared_files:
+    # - ".htpasswd"
+    # - "web/sites/default/settings.local.php"
     ansistrano_keep_releases: 5
     ansistrano_allow_anonymous_stats: false
-    ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/tasks/after-update-code-tasks.yml"
-    ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/tasks/after-symlink-tasks.yml"
+    # ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/tasks/after-update-code-tasks.yml"
+    # ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/tasks/after-symlink-tasks.yml"
     update_mode: true
   pre_tasks:
     - local_action: file path={{ ansistrano_deploy_from }}web/sites/default mode=u+w recurse=yes state=directory
