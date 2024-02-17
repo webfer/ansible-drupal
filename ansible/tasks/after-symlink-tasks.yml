@@ -1,0 +1,37 @@
+---
+- name: backup database
+  shell: 'vendor/bin/robo drupal:backup'
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+  when: update_mode and (inventory_hostname == "stage" or inventory_hostname == "pre" or inventory_hostname == "live")
+
+# TODO: These tasks are temporarily disabled until the upgrade to Drupal 9 is
+# ready.
+#- name: destroy database
+#  shell: 'vendor/bin/drush sql:drop --yes'
+#  args:
+#    chdir: "{{ ansistrano_release_path.stdout }}"
+#  when: update_mode and (inventory_hostname == "test")
+#
+#- name: sync db from stage
+#  shell: 'vendor/bin/robo db:sync --local'
+#  args:
+#    chdir: "{{ ansistrano_release_path.stdout }}"
+#  when: update_mode and (inventory_hostname == "test")
+
+- name: install drupal
+  shell: 'vendor/bin/robo drupal:install'
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+  when: not update_mode
+
+- name: update drupal
+  shell: 'vendor/bin/robo drupal:update'
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+  when: update_mode
+
+- name: styles
+  shell: 'vendor/bin/robo styles'
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"

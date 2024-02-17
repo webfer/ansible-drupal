@@ -1,0 +1,6 @@
+# You must enter here the variables that will be shared in all staging server
+# environments / hosts.
+---
+ansible_user: and_stage
+ansible_host: stage.andromeda.tothomweb.com
+ansible_port: 61022

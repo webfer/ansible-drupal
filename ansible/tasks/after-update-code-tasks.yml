@@ -1,0 +1,42 @@
+---
+# Create the needed directories.
+- name: Check if the "files" directory exists
+  stat:
+    path: "{{ ansistrano_shared_path }}/web/sites/default/files"
+  register: result
+
+- name: Creating the public files directory
+  file:
+    path: "{{ ansistrano_shared_path }}/web/sites/default/files"
+    state: directory
+    recurse: no
+    mode: "u=rwx,g=rwx,o=rx"
+  when: not result.stat.exists
+
+- name: Check if the "private" directory exists
+  stat:
+    path: "{{ ansistrano_shared_path }}/private"
+  register: result
+
+- name: Creating the private files directory
+  file:
+    path: "{{ ansistrano_shared_path }}/private"
+    state: directory
+    recurse: no
+    mode: "u=rwx,g=rx,o=rx"
+  when: not result.stat.exists
+
+# Create the needed shared files.
+- name: Creating the needed shared files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: true
+    mode: "u=rw,g=r,o=r"
+  # We use with_items instead of loop because we have an Ansible version less
+  # than 2.5.
+  loop:
+    - {
+        src: "{{ ansistrano_release_path.stdout }}/.htpasswd",
+        dest: "{{ ansistrano_shared_path }}/.htpasswd",
+      }
