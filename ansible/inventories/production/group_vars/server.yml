@@ -1,5 +1,0 @@
-# You must enter here the variables that will be shared in all production server
-# environments / hosts.
----
-ansible_user: raguilera
-ansible_host: 83.247.141.31
