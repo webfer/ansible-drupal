@@ -1,0 +1,5 @@
+---
+- name: Clear cache
+  command: "{{ bin_console }} cache:clear"
+  become_user: "{{ user }}"
+  become: true

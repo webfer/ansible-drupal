@@ -3,8 +3,12 @@ hostname: tt01ww01.okitup.net
 domain: stage.andromeda.thotomweb.com
 php_version: 8.2
 nodejs_version: 18.13.0
-mysql_user: and_stage
-mysql_db: and_stage
+
+# Data base
+mysql_user: "{{ and_mysql_user }}"
+mysql_db: "{{ and_mysql_db }}"
+db_driver: mysql
+DATA_BASE_URL: "{{ db_driver}}://{{ mysql_user }}:{{ mysql_db_pass }}@46.183.119.153/{{ mysql_db }}?server_version=8.0.31"
 
 # Deploy vars
 ansistrano_deploy_to: "/var/www/clients/client1/web232/web"
@@ -17,5 +21,8 @@ ansistrano_shared_files: ["web/sites/default/settings.local.php"]
 
 # Ansistrano hooks
 ansistrano_before_symlink_shared_tasks_file: "{{ playbook_dir }}/tasks/before-symlink-shared-tasks.yml"
+ansistrado_after_symlink_shared_tasks_file: "{{ playbook_dir }}/tasks/after-symlink-shared-tasks.yml"
+ansistrado_after_symlink_tasks_file: "{{ playbook_dir }}/tasks/after-symlink-tasks-file.yml"
 
 bin_console: "{{ ansistrano_release_path.stdout }}/bin/console"
+public_folder_path: "/var/www/clients/client1/web232/web/shaerd/public"
