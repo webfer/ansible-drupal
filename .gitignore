@@ -32,7 +32,7 @@ web/sites/*/settings.ddev.php
 web/sites/*/settings.local.php
 web/sites/*/settings.php
 web/sites/*/default.settings.php
-tools/ansible/vault-password.txt
+vault_password.txt
 
 
 # Ignore paths that may contain temporary files
