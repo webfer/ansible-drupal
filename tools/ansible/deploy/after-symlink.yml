@@ -4,8 +4,8 @@
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
     state: directory
-    owner: www-data
-    group: www-data
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
     recurse: true
   loop:
     - path: "{{ release_drupal_path }}"
@@ -18,5 +18,5 @@
     path: "{{ release_drupal_path }}/sites/default/settings.php"
     mode: ug=r,o=
     state: file
-    owner: www-data
-    group: www-data
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"

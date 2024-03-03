@@ -865,7 +865,6 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
  * Keep this code block at the end of this file to take full effect.
  */
 $settings['config_sync_directory'] = '../config/sync';
-$settings['install_profile'] = 'minimal';
 $config['config_split.config_split.develop']['status'] = FALSE;
 
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
