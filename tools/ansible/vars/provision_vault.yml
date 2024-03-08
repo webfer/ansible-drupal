@@ -1,0 +1,8 @@
+---
+vault_database_name: and_stage
+vault_database_user: and_stage
+vault_database_password: "uAM4!ss8"
+vault_server_client: web233
+vault_server_group: client1
+vault_keep_releases: 4
+vault_trusted_host: andromeda

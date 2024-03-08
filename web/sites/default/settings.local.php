@@ -30,11 +30,12 @@
  * (It cannot be changed from .htaccess or runtime) on development machines and
  * to 0 or -1 in production.
  */
-
+assert_options(ASSERT_ACTIVE, TRUE);
+assert_options(ASSERT_EXCEPTION, TRUE);
 /**
  * Enable local development services.
  */
-$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/development.services.yml';
 
 /**
  * Show all error messages, with backtrace information.
@@ -149,3 +150,4 @@ $settings['skip_permissions_hardening'] = TRUE;
  * the language or field module.
  */
 # $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy'];
+$config['config_split.config_split.develop']['status'] = TRUE;
