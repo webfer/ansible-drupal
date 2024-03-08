@@ -8,13 +8,21 @@
     - vars/provision_vault.yml
     - vars/vars.yml
     # - vars/provision_vars.yml
-    # - vars/deploy_vars.yml
+    - vars/deploy_vars.yml
 
   vars:
+    ansistrano_shared_paths:
+      - "web/sites/default/files"
+      - "web/sites/default/private"
+
     ansistrano_deploy_via: "rsync"
+
     ansistrano_deploy_from: "{{ playbook_dir }}/../../"
     ansistrano_deploy_to: "{{ project_deploy_path }}"
     ansistrano_keep_releases: "{{ vault_keep_releases }}"
 
     # Hooks
+    # ansistrano_before_update_code_tasks_file: "{{ playbook_dir }}/deploy/before-update-code-tasks.yml"
+    # ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/deploy/after-symlink-tasks.yml"
+
     # ansistrano_after_symlink_shared_tasks_file: "{{ playbook_dir }}/deploy/after-symlink-shared.yml"

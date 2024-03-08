@@ -9,4 +9,4 @@ database_user: "{{ vault_database_user }}"
 project_deploy_path: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web/site
 
 # Path to the root directory
-project_web_root: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web/
+project_web_root: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web

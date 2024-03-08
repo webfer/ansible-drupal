@@ -2,7 +2,7 @@
 ansistrano_allow_anonymous_stats: false
 ansistrano_keep_releases: "{{ vault_keep_releases }}"
 
-release_drupal_path: "{{ ansistrano_release_path.stdout }}/{{ project_web_root }}"
+release_drupal_path: "{{ project_web_root }}"
 release_drush_path: "{{ ansistrano_release_path.stdout }}/vendor/bin/drush"
 
 drupal_install: true

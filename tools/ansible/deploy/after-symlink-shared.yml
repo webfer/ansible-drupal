@@ -1,12 +1,31 @@
 ---
-- name: Install Drupal
+- name: Install Drupal 10
   command: >
-    {{ release_drush_path }}
-    site-install -y
-    --account-pass=admin123
+    {{ release_drush_path }} site-install -y
+    --account-pass=admin
+    --db-url=mysql://{{ vault_database_user }}:{{ vault_database_password }}@localhost/{{ vault_database_name }}
+    --site-name=Andromeda
     --existing-config
-    chdir={{ release_drupal_path }}
-  when: drupal_install|bool
+  args:
+    chdir: "{{ release_drupal_path }}"
+  when: drupal_install | bool
+
+
+  - name: Site Install with Drush
+  command: |
+    drush si standard --db-url=mysql://{{ mysql_username }}:{{ mysql_password }}@127.0.0.1:3306/{{ mysql_dbname }} 
+    --sites-subdir="domain.edu.{{ drupal_uri }}" 
+    --db-prefix="d_"
+    chdir=/vagrant/d7core/
+
+# - name: Install Drupal
+#   command: >
+#     {{ release_drush_path }}
+#     site-install -y
+#     --account-pass=admin
+#     --existing-config
+#     chdir={{ release_drupal_path }}
+#   when: drupal_install|bool
 
 - name: Post-update tasks
   when: not drupal_install|bool
@@ -18,24 +37,24 @@
         chdir={{ release_drupal_path }}
       changed_when: false
 
-    - name: Run database updates
-      command: >
-        {{ release_drush_path }}
-        updatedb -y
-        chdir={{ release_drupal_path }}
-      register: update_database_output
-      changed_when: "'No pending updates' not in update_database_output.stderr"
+    # - name: Run database updates
+    #   command: >
+    #     {{ release_drush_path }}
+    #     updatedb -y
+    #     chdir={{ release_drupal_path }}
+    #   register: update_database_output
+    #   changed_when: "'No pending updates' not in update_database_output.stderr"
 
-    - name: Import configuration
-      command: >
-        {{ release_drush_path }}
-        config-import -y
-        chdir={{ release_drupal_path }}
-      register: config_import_output
-      changed_when: "'There are no changes to import' not in config_import_output.stderr"
+    # - name: Import configuration
+    #   command: >
+    #     {{ release_drush_path }}
+    #     config-import -y
+    #     chdir={{ release_drupal_path }}
+    #   register: config_import_output
+    #   changed_when: "'There are no changes to import' not in config_import_output.stderr"
 
-    - name: Rebuild cache
-      command: >
-        {{ release_drush_path }} cache-rebuild
-        chdir={{ release_drupal_path }}
-      changed_when: false
+    # - name: Rebuild cache
+    #   command: >
+    #     {{ release_drush_path }} cache-rebuild
+    #     chdir={{ release_drupal_path }}
+    #   changed_when: false
