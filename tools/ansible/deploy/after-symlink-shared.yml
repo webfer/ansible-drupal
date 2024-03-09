@@ -1,9 +1,15 @@
 ---
 - name: Install Drupal using Drush
-  command: mysql -u {{ vault_database_user }} -p{{ vault_database_password }} -h localhost {{ vault_database_name }}
+  shell: |
+    {{ release_drush_path }} site-install -y \
+    --db-url=mysql://{{ vault_database_user }}:{{ vault_database_password }}@localhost/{{ vault_database_name }} \
+    --account-name=admin \
+    --account-pass=password \
+    --site-name=Andromeda \
+    --yes
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
-  when: drupal_install|bool
+  when: drupal_install | bool
 
 - name: Post-update tasks
   when: not drupal_install|bool
