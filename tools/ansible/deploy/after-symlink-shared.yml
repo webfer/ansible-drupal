@@ -3,9 +3,9 @@
   shell: |
     {{ release_drush_path }} site-install -y \
     --db-url=mysql://{{ vault_database_user }}:{{ vault_database_password }}@localhost/{{ vault_database_name }} \
-    --account-name=admin \
-    --account-pass=password \
-    --site-name=Andromeda \
+    --account-name={{ vault_account_drupal_name }} \
+    --account-pass={{ vault_account_drupal_pass }} \
+    --site-name={{ vault_account_drupal_site_name }} \
     --yes
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"

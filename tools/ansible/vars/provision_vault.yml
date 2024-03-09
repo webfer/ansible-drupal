@@ -6,3 +6,8 @@ vault_server_client: web233
 vault_server_group: client1
 vault_keep_releases: 4
 vault_trusted_host: andromeda
+
+# Drupal admin configuration
+vault_account_drupal_name: admin
+vault_account_drupal_pass: password
+vault_account_drupal_site_name: Andromeda
