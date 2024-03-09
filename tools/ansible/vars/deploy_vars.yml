@@ -17,9 +17,9 @@ drupal_settings:
               default:
                 driver: mysql
                 host: localhost
-                database: "{{ database_name }}"
-                username: "{{ database_user }}"
-                password: "{{ database_password }}"
+                database: "{{ vault_database_name }}"
+                username: "{{ vault_database_name }}"
+                password: "{{ vault_database_password }}"
           hash_salt: "{{ drupal_hash_salt }}"
           config_directories:
             sync: ../config/sync
