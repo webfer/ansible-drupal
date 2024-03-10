@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    drupal_settings:
+      - root: /var/www/test
+        sites:
+          - name: default
+            filename: settings.test.php
+  roles:
+    - role: opdavies.drupal-settings

@@ -1,5 +1,9 @@
 # Ansible Role: Drupal settings
 
+A role for automatically generating `settings.php` files for Drupal 7 and 8 applications.
+
+## Example
+
 ```yaml
 drupal_settings:
   - drupal_root: /var/www/web
@@ -14,6 +18,7 @@ drupal_settings:
               default: # The database target
                 driver: mysql # Optional, defaults to 'mysql'
                 host: localhost # Optional, defaults to 'localhost'
+                port: 3306 # Optional
                 database: mydatabase
                 username: user
                 password: secret
