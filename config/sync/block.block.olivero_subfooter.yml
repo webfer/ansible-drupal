@@ -1,0 +1,25 @@
+uuid: 03ad5c37-91d7-4044-9393-357d3821c902
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:6955565e-2781-4d2a-aa7e-985238145fef'
+  module:
+    - block_content
+  theme:
+    - olivero
+id: olivero_subfooter
+theme: olivero
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:6955565e-2781-4d2a-aa7e-985238145fef'
+settings:
+  id: 'block_content:6955565e-2781-4d2a-aa7e-985238145fef'
+  label: 'Sub Footer'
+  label_display: visible
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

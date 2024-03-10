@@ -1,0 +1,8 @@
+uuid: 85aececf-4e01-4331-8197-9a6dd9609dd0
+langcode: en
+status: true
+dependencies: {  }
+id: news
+label: News
+target_entity_type_id: node
+description: ''
