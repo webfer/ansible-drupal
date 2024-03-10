@@ -20,7 +20,7 @@ drupal_settings:
                 database: "{{ vault_database_name }}"
                 username: "{{ vault_database_name }}"
                 password: "{{ vault_database_password }}"
-          hash_salt: "{{ drupal_hash_salt }}"
+          hash_salt: "{{ vault_drupal_hash_salt }}"
           config_directories:
             sync: ../config/sync
           trusted_hosts:
