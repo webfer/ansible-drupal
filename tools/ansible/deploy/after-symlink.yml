@@ -10,7 +10,7 @@
 
 - name: Set directory permissions for ansistrano_shared_path
   file:
-    path: "{{ ansistrano_shared_path }}/{{ project_web_root }}/sites/default/files"
+    path: "{{ ansistrano_shared_path }}/web/sites/default/files"
     mode: "0770"
     state: directory
     owner: "{{ vault_server_client }}"
