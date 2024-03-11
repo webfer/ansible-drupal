@@ -1,4 +1,9 @@
 ---
+- name: Check if Drupal is installed
+  stat:
+    path: "{{ project_deploy_path }}/current/web" # Specify the path where Drupal is typically installed
+  register: drupal_installed
+
 - name: Install Drupal using Drush
   shell: |
     {{ release_drush_path }} site-install -y \
@@ -9,10 +14,14 @@
     --yes
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
-  when: drupal_install | bool
+  when: drupal_installed.stat.exists == false
+
+- name: Print if Drupal is installed
+  debug:
+    msg: "Drupal is installed ==>: {{  drupal_installed.stat.exists }}"
 
 - name: Post-update tasks
-  when: not drupal_install|bool
+  when: drupal_installed.stat.exists == true
   block:
     - name: Clear Drush cache
       command: >
