@@ -1,9 +1,4 @@
 ---
-- name: Check if Drupal is installed
-  stat:
-    path: "{{ project_deploy_path }}/current/web" # Specify the path where Drupal is typically installed
-  register: drupal_installed
-
 - name: Install Drupal using Drush
   shell: |
     {{ release_drush_path }} site-install -y \
@@ -14,14 +9,10 @@
     --yes
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
-  when: drupal_installed.stat.exists == false
-
-- name: Print if Drupal is installed
-  debug:
-    msg: "Drupal is installed ==>: {{  drupal_installed.stat.exists }}"
+  when: drupal_install | bool
 
 - name: Post-update tasks
-  when: drupal_installed.stat.exists == true
+  when: drupal_install|bool
   block:
     - name: Clear Drush cache
       command: >
@@ -39,10 +30,9 @@
       changed_when: "'No pending updates' not in update_database_output.stderr"
 
     - name: Import configuration
-      command: >
-        {{ release_drush_path }}
-        config-import -y
-        chdir={{ release_drupal_path }}
+      command: "{{ release_drush_path }} config-import -y"
+      args:
+        chdir: "{{ release_drupal_path }}"
       register: config_import_output
       changed_when: "'There are no changes to import' not in config_import_output.stderr"
 
