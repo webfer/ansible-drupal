@@ -41,3 +41,7 @@
         {{ release_drush_path }} cache-rebuild
         chdir={{ release_drupal_path }}
       changed_when: false
+# - name: Change to custom theme directory
+#   become_user: "{{ ansistrano_deploy_to }}"
+#   become_method: sudo
+#   shell: cd {{ ansistrano_deploy_to }}/current/web/themes/custom/drupy && npm install

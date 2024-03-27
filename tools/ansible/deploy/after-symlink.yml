@@ -1,7 +1,7 @@
 ---
 - name: Set directory permissions for release_drupal_path
   file:
-    path: "{{ ansistrano_current_dir }}"
+    path: "{{ ansistrano_release_path.stdout }}"
     mode: "0755"
     state: directory
     recurse: yes
