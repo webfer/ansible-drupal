@@ -1,18 +1,58 @@
 ---
 - name: Set directory permissions for release_drupal_path
   file:
-    path: "{{ ansistrano_release_path }}"
+    path: "{{ ansistrano_current_dir }}"
     mode: "0755"
     state: directory
     recurse: yes
   tags:
     - pre-deploy
 
+- name: PROBANDO PATH
+  debug:
+    msg: "Set directory permissions for ansistrano_shared_path:  {{ ansistrano_shared_path }}/../current/web/sites/default/files"
+
 - name: Set directory permissions for ansistrano_shared_path
   file:
-    path: "{{ ansistrano_shared_path }}/web/sites/default/files"
-    mode: "0770"
+    path: "{{ ansistrano_shared_path }}/../current/web/sites/default/files"
+    mode: "0755"
     state: directory
     owner: "{{ vault_server_client }}"
     group: "{{ vault_server_group }}"
     recurse: true
+
+- name: Ensure properly permissions to vendor's directory
+  file:
+    path: "{{ ansistrano_shared_path }}/../current/vendor"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
+    recurse: true
+
+- name: Ensure properly permissions to Drupal's root directory
+  file:
+    path: "{{ ansistrano_shared_path }}/../current/web"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
+    recurse: false
+
+- name: Ensure properly permissions to Drupal's sites directory
+  file:
+    path: "{{ ansistrano_shared_path }}/../current/web/sites"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
+    recurse: false
+
+- name: Ensure properly permissions to Drupal's sites/default directory
+  file:
+    path: "{{ ansistrano_shared_path }}/../current/web/sites/default"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
+    recurse: false

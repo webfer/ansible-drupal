@@ -6,7 +6,7 @@ database_password: "{{ vault_database_password }}"
 database_user: "{{ vault_database_user }}"
 
 # Path to the  deploy directory
-project_deploy_path: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web/drupal
+project_deploy_path: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web/site
 
 # Path to the root directory
 project_web_root: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web

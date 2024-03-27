@@ -29,12 +29,12 @@
       register: update_database_output
       changed_when: "'No pending updates' not in update_database_output.stderr"
 
-    - name: Import configuration
-      command: "{{ release_drush_path }} config-import -y"
-      args:
-        chdir: "{{ release_drupal_path }}"
-      register: config_import_output
-      changed_when: "'There are no changes to import' not in config_import_output.stderr"
+    # - name: Import configuration
+    #   command: "{{ release_drush_path }} config-import -y"
+    #   args:
+    #     chdir: "{{ release_drupal_path }}"
+    #   register: config_import_output
+    #   changed_when: "'There are no changes to import' not in config_import_output.stderr"
 
     - name: Rebuild cache
       command: >
