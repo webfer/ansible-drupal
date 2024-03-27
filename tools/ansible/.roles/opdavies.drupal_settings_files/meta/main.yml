@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  role_name: drupal-settings-files
+  author: opdavies
+  description: Automatically generates settings files for Drupal applications
+  license: MIT
+  platforms:
+    - name: EL
+      versions: [all]
+    - name: Debian
+      versions: [all]
+    - name: Ubuntu
+      versions: [all]
+  galaxy_tags: [drupal, php, cms, web, development]
+
+dependencies: []

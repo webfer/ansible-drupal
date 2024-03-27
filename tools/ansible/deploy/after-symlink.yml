@@ -1,7 +1,7 @@
 ---
 - name: Set directory permissions for release_drupal_path
   file:
-    path: "{{ ansistrano_release_path.stdout }}"
+    path: "{{ ansistrano_current_dir }}"
     mode: "0755"
     state: directory
     recurse: yes
@@ -52,3 +52,18 @@
     owner: "{{ vault_server_client }}"
     group: "{{ vault_server_group }}"
     recurse: false
+
+- name: Ensure properly permissions to Drupal's sites/default directory
+  file:
+    path: "{{ ansistrano_release_path.stdout }}/web/core"
+    mode: "0755"
+    state: directory
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
+    recurse: false
+# - name: Update file permissions
+#   file:
+#     path: "{{ ansistrano_shared_path }}/sites/default/settings.php"
+#     mode: "0664"
+#     state: file
+#     group: "{{ vault_server_group }}"

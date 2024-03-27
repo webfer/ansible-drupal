@@ -6,3 +6,27 @@ release_drupal_path: "{{ project_web_root }}"
 release_drush_path: "{{ ansistrano_release_path.stdout }}/vendor/bin/drush"
 
 drupal_install: true
+
+drupal_settings:
+  - drupal_root: "{{ release_drupal_path }}"
+    sites:
+      - name: default
+        filename: settings.live.php
+        settings:
+          databases:
+            default:
+              default:
+                driver: mysql
+                host: localhost
+                database: "{{ vault_database_name }}"
+                username: "{{ vault_database_user }}"
+                password: "{{ vault_database_password }}"
+          hash_salt: "{{ vault_drupal_hash_salt }}"
+          config_directories:
+            sync: ../config/sync
+          trusted_hosts:
+            - "^stage.andromeda$"
+          extra_parameters: |
+            $settings['config_sync_directory'] = '../config/sync';
+
+            $settings['deployment_identifier'] = '{{ ansistrano_release_version }}';
