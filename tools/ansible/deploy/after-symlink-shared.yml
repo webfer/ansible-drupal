@@ -29,6 +29,7 @@
       register: update_database_output
       changed_when: "'No pending updates' not in update_database_output.stderr"
 
+    # TODO: Import the theme configuration site
     # - name: Import configuration
     #   command: "{{ release_drush_path }} config-import -y"
     #   args:
@@ -41,6 +42,7 @@
         {{ release_drush_path }} cache-rebuild
         chdir={{ release_drupal_path }}
       changed_when: false
+# TODO: Install theme site
 # - name: Change to custom theme directory
 #   become_user: "{{ ansistrano_deploy_to }}"
 #   become_method: sudo

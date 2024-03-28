@@ -25,7 +25,10 @@ drupal_settings:
           config_directories:
             sync: ../config/sync
           trusted_hosts:
-            - "^stage.andromeda$"
+            - '^andromeda\.com$'
+            - '^.+\.andromeda\.com$'
+            - '^example\.org$'
+            - '^.+\.example\.org$'
           extra_parameters: |
             $settings['config_sync_directory'] = '../config/sync';
 

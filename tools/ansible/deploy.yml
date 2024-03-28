@@ -11,11 +11,17 @@
     - vars/deploy_vars.yml
 
   vars:
-    ansistrano_shared_paths:
-      - "web/sites/default/files"
-      - "web/sites/default/private"
-
     ansistrano_deploy_via: "rsync"
+    ansistrano_rsync_extra_params:
+      - "--exclude='.ddev/'"
+      - "--exclude='.DS_Store'"
+      - "--exclude='.editorconfig'"
+      - "--exclude='.git'"
+      - "--exclude='.gitattributes'"
+      - "--exclude='.gitignore'"
+      - "--exclude='vault_pass.txt'"
+      - "--exclude='web/sites/default/settings.ddev.php'"
+      - "--exclude='web/sites/default/settings.local.php'"
 
     ansistrano_deploy_from: "{{ playbook_dir }}/../../"
     ansistrano_deploy_to: "{{ project_deploy_path }}"
@@ -25,6 +31,11 @@
     ansistrano_after_symlink_shared_tasks_file: "{{ playbook_dir }}/deploy/after-symlink-shared.yml"
     ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/deploy/after-symlink.yml"
     ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/deploy/after-update-code.yml"
+
+    ansistrano_shared_paths:
+      - "web/sites/default/files"
+      - "web/sites/default/private"
+      - "web/sites/default/settings.live.php"
 
     # ansistrano_before_update_code_tasks_file: "{{ playbook_dir }}/deploy/before-update-code-tasks.yml"
     # ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/deploy/after-symlink-tasks.yml"

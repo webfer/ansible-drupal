@@ -61,9 +61,3 @@
     owner: "{{ vault_server_client }}"
     group: "{{ vault_server_group }}"
     recurse: false
-# - name: Update file permissions
-#   file:
-#     path: "{{ ansistrano_shared_path }}/sites/default/settings.php"
-#     mode: "0664"
-#     state: file
-#     group: "{{ vault_server_group }}"
