@@ -62,3 +62,29 @@
     owner: "{{ vault_server_client }}"
     group: "{{ vault_server_group }}"
     recurse: false
+
+# Clear cache
+
+- name: Rebuild Drupal cache using Drush
+  shell: |
+    {{ release_drush_path }}
+  args:
+    chdir: "{{ release_drupal_path }}"
+    executable: /bin/bash
+  tags:
+    - drupal
+
+- name: Run database updates
+  command: >
+    {{ release_drush_path }}
+    updatedb -y
+    chdir={{ release_drupal_path }}
+  register: update_database_output
+# Impor configuration
+# - name: Import Drupal configuration
+#   command: "{{ release_drush_path }} config-import -y"
+#   args:
+#     chdir: "{{ release_drupal_path }}"
+#   register: config_import_output
+#   tags:
+#     - drupal
