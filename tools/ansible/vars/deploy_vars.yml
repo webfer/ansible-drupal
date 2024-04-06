@@ -25,10 +25,8 @@ drupal_settings:
           config_directories:
             sync: ../config/sync
           trusted_hosts:
-            - '^.+\.andromeda\.tothomweb\.com$'
-            - '^andromeda\.com$'
-            - '^example\.org$'
-            - '^.+\.example\.org$'
+            - '^.+\.{{vault_site_name}}\.{{vault_company_name}}\.com$'
+            - '^{{vault_site_name}}\.com$'
           extra_parameters: |
             $settings['config_sync_directory'] = '../config/sync';
 

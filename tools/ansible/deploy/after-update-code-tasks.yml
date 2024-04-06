@@ -3,6 +3,7 @@
   include_role:
     name: opdavies.drupal_settings_files
 
+# DEBUG
 - name: Print Ansistrano Release Path
   debug:
     msg: "Ansistrano Release Path: {{ ansistrano_release_path.stdout }}"

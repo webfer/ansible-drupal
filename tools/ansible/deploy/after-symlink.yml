@@ -1,4 +1,5 @@
 ---
+# Set permissions
 - name: Set directory permissions for release_drupal_path
   file:
     path: "{{ ansistrano_current_dir }}"
