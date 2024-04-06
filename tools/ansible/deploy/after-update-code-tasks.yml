@@ -1,0 +1,53 @@
+---
+- name: Generate settings.php file
+  include_role:
+    name: opdavies.drupal_settings_files
+
+# DEBUG
+- name: Print Ansistrano Release Path
+  debug:
+    msg: "Ansistrano Release Path: {{ ansistrano_release_path.stdout }}"
+
+- name: Install Drupal dependencies with Composer
+  shell: composer install
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+    creates: "{{ ansistrano_release_path.stdout }}/vendor/autoload.php"
+
+# Create the needed directories.
+- name: Check if the "files" directory exists
+  stat:
+    path: "{{ ansistrano_shared_path }}/web/sites/default/files"
+  register: result
+
+- name: Creating the public files directory
+  file:
+    path: "{{ ansistrano_shared_path }}/web/sites/default/files"
+    state: directory
+    recurse: no
+    mode: "u=rwx,g=rwx,o=rx"
+  when: not result.stat.exists
+
+- name: Check if the "private" directory exists
+  stat:
+    path: "{{ ansistrano_shared_path }}/private"
+  register: result
+
+- name: Creating the private files directory
+  file:
+    path: "{{ ansistrano_shared_path }}/private"
+    state: directory
+    recurse: no
+    mode: "u=rwx,g=rx,o=rx"
+  when: not result.stat.exists
+
+# Create the needed shared files.
+- name: Creating the needed shared files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: true
+    mode: "u=rw,g=r,o=r"
+  loop:
+    - src: "{{ project_deploy_path }}/default/settings.live.php"
+      dest: "{{ ansistrano_shared_path }}/web/sites/default/settings.live.php"

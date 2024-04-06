@@ -5,26 +5,28 @@ ansistrano_keep_releases: "{{ vault_keep_releases }}"
 release_drupal_path: "{{ project_web_root }}"
 release_drush_path: "{{ ansistrano_release_path.stdout }}/vendor/bin/drush"
 
-drupal_install: true
+drupal_install: false
 
 drupal_settings:
   - drupal_root: "{{ release_drupal_path }}"
     sites:
       - name: default
+        filename: settings.live.php
         settings:
           databases:
             default:
               default:
                 driver: mysql
                 host: localhost
-                database: "{{ database_name }}"
-                username: "{{ database_user }}"
-                password: "{{ database_password }}"
-          hash_salt: "{{ drupal_hash_salt }}"
+                database: "{{ vault_database_name }}"
+                username: "{{ vault_database_user }}"
+                password: "{{ vault_database_password }}"
+          hash_salt: "{{ vault_drupal_hash_salt }}"
           config_directories:
             sync: ../config/sync
           trusted_hosts:
-            - "^{{ vault_trusted_host }}$"
+            - '^.+\.{{vault_site_name}}\.{{vault_company_name}}\.com$'
+            - '^{{vault_site_name}}\.com$'
           extra_parameters: |
             $settings['config_sync_directory'] = '../config/sync';
 
