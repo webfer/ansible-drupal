@@ -1,0 +1,25 @@
+uuid: fe77c609-31e3-47d0-b2ce-eedf1ab47be7
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:0cc79340-b13a-4805-90d4-a386111b380f'
+  module:
+    - block_content
+  theme:
+    - olivero
+id: olivero_testblock
+theme: olivero
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:0cc79340-b13a-4805-90d4-a386111b380f'
+settings:
+  id: 'block_content:0cc79340-b13a-4805-90d4-a386111b380f'
+  label: 'Test block config'
+  label_display: visible
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

@@ -66,7 +66,9 @@
 # Unarchive file sql from GZIP
 - name: Extract SQL file from Gzip archive using Drush Shell
   ansible.builtin.shell: "gunzip -c {{ ansistrano_release_path.stdout }}/sql/db.sql.gz > {{ ansistrano_release_path.stdout }}/sql/db.sql"
-  when: vault_mode == 'install'
+  # when: vault_mode == 'install'
+  tags:
+    - unarchive_db
 
 # Import database from local machine to remote server
 - name: Import MySQL Database
@@ -76,16 +78,18 @@
     login_password: "{{ vault_database_password }}"
     state: import
     target: "{{ ansistrano_release_path.stdout }}/sql/db.sql"
-  when: vault_mode == 'install'
-  # tags:
-  #   - db_update
+  # when: vault_mode == 'install'
+  tags:
+    - db_update
 
 # Import configuration
 - name: Import configuration
   command: "{{ release_drush_path }} config-import --yes --verbose"
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
-  when: vault_mode == 'update'
+  # when: vault_mode == 'update'
+  tags:
+    - import_config
 
 # Clear cache
 - name: Rebuild Drupal cache using Drush
