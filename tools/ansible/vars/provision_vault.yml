@@ -7,7 +7,7 @@ vault_server_group: client1
 vault_keep_releases: 4
 
 # Take care: modes availables,  Update or Install
-vault_mode: "install"
+vault_mode: "update"
 
 # Drupal admin configuration
 vault_account_drupal_name: admin

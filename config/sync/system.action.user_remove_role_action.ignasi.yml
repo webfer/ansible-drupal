@@ -1,0 +1,14 @@
+uuid: 97208f93-bf61-4c12-815c-22fa392bf23f
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.ignasi
+  module:
+    - user
+id: user_remove_role_action.ignasi
+label: 'Remove the ignasi role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: ignasi
