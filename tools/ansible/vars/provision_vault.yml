@@ -15,3 +15,4 @@ vault_account_drupal_site_name: Andromeda
 vault_site_name: andromeda
 vault_company_name: tothomweb
 vault_drupal_hash_salt: "09b6d2197b2ee848e7e11ae5d61a29484c40e0b78fa3f492f1fadc16a8caeb04"
+vault_drupal_site_uuid: "7887df66-de5e-426f-82c5-cac8ef59ec22"

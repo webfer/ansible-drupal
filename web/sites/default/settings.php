@@ -864,6 +864,8 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
  *
  * Keep this code block at the end of this file to take full effect.
  */
+$config['system.site']['uuid'] = '7887df66-de5e-426f-82c5-cac8ef59ec22';
+
 $settings['config_sync_directory'] = '../config/sync';
 $config['config_split.config_split.develop']['status'] = FALSE;
 

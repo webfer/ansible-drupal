@@ -2,6 +2,8 @@
 ansistrano_allow_anonymous_stats: false
 ansistrano_keep_releases: "{{ vault_keep_releases }}"
 
+release_drupal_dir_path: "{{ ansistrano_release_path.stdout }}/{{ drupal_dir_web_root }}"
+
 release_drupal_path: "{{ project_web_root }}"
 release_drush_path: "{{ ansistrano_release_path.stdout }}/vendor/bin/drush"
 
@@ -25,9 +27,10 @@ drupal_settings:
           config_directories:
             sync: ../config/sync
           trusted_hosts:
-            - '^.+\.{{vault_site_name}}\.{{vault_company_name}}\.com$'
+            - '^.+\.{{ vault_site_name }}\.{{ vault_company_name }}\.com$'
             - '^{{vault_site_name}}\.com$'
           extra_parameters: |
             $settings['config_sync_directory'] = '../config/sync';
+            $config['system.site']['uuid'] = '7887df66-de5e-426f-82c5-cac8ef59ec22';
 
             $settings['deployment_identifier'] = '{{ ansistrano_release_version }}';

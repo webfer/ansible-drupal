@@ -10,3 +10,4 @@ project_deploy_path: /var/www/clients/{{vault_server_group}}/{{vault_server_clie
 
 # Path to the root directory
 project_web_root: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web
+drupal_dir_web_root: web
