@@ -1,0 +1,9 @@
+uuid: c3c3b1df-313a-49ec-8186-985e9ead0f6b
+langcode: en
+status: true
+dependencies: {  }
+id: ignasi
+label: ignasi
+weight: 4
+is_admin: null
+permissions: {  }

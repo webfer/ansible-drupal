@@ -1,0 +1,14 @@
+uuid: e6a64d04-3f3b-461f-a898-eddfec4c10f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.ignasi
+  module:
+    - user
+id: user_add_role_action.ignasi
+label: 'Add the ignasi role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: ignasi
