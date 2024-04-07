@@ -24,9 +24,7 @@ drupal_settings:
           hash_salt: "{{ vault_drupal_hash_salt }}"
           config_directories:
             sync: ../config/sync
-          trusted_hosts:
-            - '^.+\.{{vault_site_name}}\.{{vault_company_name}}\.com$'
-            - '^{{vault_site_name}}\.com$'
+          trusted_hosts: "{{ vault_trusted_domains }}"
           extra_parameters: |
             $settings['config_sync_directory'] = '../config/sync';
 

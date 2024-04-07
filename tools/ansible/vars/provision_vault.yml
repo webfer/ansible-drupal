@@ -6,6 +6,9 @@ vault_server_client: web233
 vault_server_group: client1
 vault_keep_releases: 4
 
+# Take care: modes availables,  Update or Install
+vault_mode: "install"
+
 # Drupal admin configuration
 vault_account_drupal_name: admin
 vault_account_drupal_pass: password
@@ -14,4 +17,14 @@ vault_account_drupal_site_name: Andromeda
 # Key sensitive, use this variables in lowercase
 vault_site_name: andromeda
 vault_company_name: tothomweb
+
+# Trusted domains. Take care about the config:
+#   '^example\.com$',
+#   '^.+\.example\.com$',
+#   '^example\.org$',
+#   '^.+\.example\.org$',
+vault_trusted_domains:
+  - '^.+\.andromeda\.tothomweb\.com$'
+  - '^andromeda\.com$'
 vault_drupal_hash_salt: "09b6d2197b2ee848e7e11ae5d61a29484c40e0b78fa3f492f1fadc16a8caeb04"
+vault_uuid:

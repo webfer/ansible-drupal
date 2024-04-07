@@ -63,6 +63,25 @@
     group: "{{ vault_server_group }}"
     recurse: false
 
+# Unarchive file sql from GZIP
+- name: Extract SQL file from Gzip archive using Drush Shell
+  ansible.builtin.shell: "gunzip -c {{ ansistrano_release_path.stdout }}/sql/db.sql.gz > {{ ansistrano_release_path.stdout }}/sql/db.sql"
+
+# Update database
+- name: Update MySQL Database
+  ansible.builtin.mysql_db:
+    name: "{{ vault_database_name }}"
+    login_user: "{{ vault_database_user }}"
+    login_password: "{{ vault_database_password }}"
+    state: import
+    target: "{{ ansistrano_release_path.stdout }}/sql/db.sql"
+
+# Check if DB is installed
+
+# Import db
+
+# If db exist, update
+
 # Clear cache
 
 - name: Rebuild Drupal cache using Drush
@@ -73,12 +92,11 @@
     executable: /bin/bash
   tags:
     - drupal
-
-- name: Override the generated site UUID with our own.
-  command: >
-    drush config-set -y system.site uuid {{ vault_drupal_site_uuid }}
-    chdir={{ ansistrano_release_path.stdout }}
-  # when: "inventory_hostname = groups-webservers [0]"
+# - name: Override the generated site UUID with our own.
+#   command: >
+#     drush config-set -y system.site uuid {{ vault_drupal_site_uuid }}
+#     chdir={{ ansistrano_release_path.stdout }}
+# when: "inventory_hostname = groups-webservers [0]"
 
 # - name: Run database updates
 #   command: >
@@ -95,13 +113,13 @@
 #   ignore_errors: yes
 # Impor configuration
 
-- name: Print Ansistrano release_drupal_dir_path
-  debug:
-    msg: "Ansistrano Release Path: {{ release_drupal_dir_path }}"
+# - name: Print Ansistrano release_drupal_dir_path
+#   debug:
+#     msg: "Ansistrano Release Path: {{ release_drupal_dir_path }}"
 
-- name: Print Ansistrano release_drupal_path
-  debug:
-    msg: "Ansistrano Release Path: {{ release_drupal_path }}"
+# - name: Print Ansistrano release_drupal_path
+#   debug:
+#     msg: "Ansistrano Release Path: {{ release_drupal_path }}"
 # - name: Import Drupal configuration
 #   command: "{{ release_drush_path }} config-import -y"
 #   args:
