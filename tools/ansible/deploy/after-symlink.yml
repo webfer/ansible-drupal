@@ -77,6 +77,8 @@
     state: import
     target: "{{ ansistrano_release_path.stdout }}/sql/db.sql"
   when: vault_mode == 'install'
+  # tags:
+  #   - db_update
 
 # Import configuration
 - name: Import configuration

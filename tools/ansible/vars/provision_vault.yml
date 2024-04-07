@@ -7,7 +7,7 @@ vault_server_group: client1
 vault_keep_releases: 4
 
 # Take care: modes availables,  Update or Install
-vault_mode: "update"
+vault_mode: "install"
 
 # Drupal admin configuration
 vault_account_drupal_name: admin
@@ -27,4 +27,3 @@ vault_trusted_domains:
   - '^.+\.andromeda\.tothomweb\.com$'
   - '^andromeda\.com$'
 vault_drupal_hash_salt: "09b6d2197b2ee848e7e11ae5d61a29484c40e0b78fa3f492f1fadc16a8caeb04"
-vault_uuid:
