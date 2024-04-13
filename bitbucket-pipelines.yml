@@ -1,0 +1,14 @@
+---
+image: python:3.7
+options:
+  max-time: 10
+pipelines:
+  branches:
+    development:
+      - step:
+          name: Deploy to DEV server
+          caches:
+            - pip
+          script:
+            - pip install ansible
+            - ansible-playbook  tools/ansible/deploy.yml --skip-tags 'unarchive_db, db_update'
