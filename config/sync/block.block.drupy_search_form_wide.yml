@@ -1,0 +1,23 @@
+uuid: 84f66387-cd59-4b09-af83-45851802a4c6
+langcode: en
+status: false
+dependencies:
+  module:
+    - search
+  theme:
+    - drupy
+_core:
+  default_config_hash: aYZeZs5zJd0ImwgNW4QxQo4PgTp-nKz-TDyYbJm-h58
+id: drupy_search_form_wide
+theme: drupy
+region: secondary_menu
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility: {  }

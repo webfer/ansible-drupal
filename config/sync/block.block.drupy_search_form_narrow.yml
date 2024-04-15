@@ -1,0 +1,23 @@
+uuid: 7a25fce0-ba0e-4885-91ec-c93ee9c58dfc
+langcode: en
+status: false
+dependencies:
+  module:
+    - search
+  theme:
+    - drupy
+_core:
+  default_config_hash: Rc3fJybUEWNgeW5L_cqyuFQuNbh2gz6yGXX8AmhKESc
+id: drupy_search_form_narrow
+theme: drupy
+region: brand
+weight: -4
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (narrow)'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility: {  }

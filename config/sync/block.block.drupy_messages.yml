@@ -1,0 +1,22 @@
+uuid: 767715e1-2178-4040-b45a-62b72d9a019e
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - drupy
+_core:
+  default_config_hash: 8Z8StKwIvqArDHznM3ZbrlNSM5xYaehPdCyGOaMy-GA
+id: drupy_messages
+theme: drupy
+region: help
+weight: -5
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

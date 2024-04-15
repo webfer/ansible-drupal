@@ -1,0 +1,25 @@
+uuid: 01fdcaa3-2a81-4eca-8c2e-78237cf8f485
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - drupy
+_core:
+  default_config_hash: 0_NgsMPlJOenAnOI7De4ALk9WZJS5qMmf2m-iDsu8cY
+id: drupy_site_branding
+theme: drupy
+region: brand
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

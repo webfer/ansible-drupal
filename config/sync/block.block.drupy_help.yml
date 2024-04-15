@@ -1,0 +1,22 @@
+uuid: 5564cb7a-aeba-4ca3-85e3-7446d2ed5e04
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - drupy
+_core:
+  default_config_hash: TCpBJzHRx--GjuFSBdAumRraMXUIiNUq4uMkyfsry-o
+id: drupy_help
+theme: drupy
+region: help
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

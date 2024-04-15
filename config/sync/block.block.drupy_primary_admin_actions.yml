@@ -1,0 +1,20 @@
+uuid: aebce4a1-8040-4420-b659-157417179db8
+langcode: en
+status: true
+dependencies:
+  theme:
+    - drupy
+_core:
+  default_config_hash: ghwjsBBGiyRRlY2mWc12Bm_MpNtE1esTgm5Y4ixvx_I
+id: drupy_primary_admin_actions
+theme: drupy
+region: help
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

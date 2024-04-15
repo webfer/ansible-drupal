@@ -1,0 +1,27 @@
+uuid: 3771854e-6462-45fb-aa3a-8e2de500dd6a
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - drupy
+_core:
+  default_config_hash: 5WHSUkYyx0h0tsa_3JSl7Sb7lnaIzIauMZFu5fJ7IXI
+id: drupy_main_menu
+theme: drupy
+region: main_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 2
+  expand_all_items: true
+visibility: {  }

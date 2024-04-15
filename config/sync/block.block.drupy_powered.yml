@@ -1,0 +1,22 @@
+uuid: cfcf8f06-56b8-49cb-99fd-f16257108969
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - drupy
+_core:
+  default_config_hash: IsRbieee5J38qmiwQxVZ10ttJHjLbdLOGXPe68p6hnU
+id: drupy_powered
+theme: drupy
+region: footer
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,20 @@
+uuid: 7f0b7add-7115-42f8-9925-d9ad35288843
+langcode: en
+status: true
+dependencies:
+  theme:
+    - drupy
+_core:
+  default_config_hash: C0L6ZtYX00CneXRlteQvHgA3hOPzYgHyojgjJQn0Q_E
+id: drupy_page_title
+theme: drupy
+region: content
+weight: -10
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }
