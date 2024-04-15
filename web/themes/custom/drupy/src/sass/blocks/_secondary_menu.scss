@@ -1,0 +1,42 @@
+.secondary-menu {
+
+  nav > ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    @media (min-width: $screen-xl) {
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin: 0 0 1rem;
+    }
+
+    li {
+      height: 100%;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+      margin: 0;
+      @include transition();
+
+      @media (min-width: $screen-xl) {
+        width: initial;
+        margin: 0;
+        padding: 0.5rem 1rem;
+      }
+
+      a {
+        color: $white;
+        @include font(14px, 500);
+      }
+    }
+  }
+}

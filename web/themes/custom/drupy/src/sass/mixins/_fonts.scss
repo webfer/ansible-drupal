@@ -1,0 +1,7 @@
+@mixin font($size, $weight: normal, $font-family: Montserrat) {
+  font-size: calc($size / $font-base-size * 1rem);
+  font-weight: $weight;
+  font-family: $font-family;
+  letter-spacing: 0px;
+  line-height: 1.5;
+}

@@ -1,0 +1,33 @@
+name: Drupy
+type: theme
+description: 'A responsive skeleton theme based on Bootstrap 5 and Webpack 4.'
+# version: VERSION
+base theme: false
+core_version_requirement: ^8 || ^9 || ^10
+
+# Libraries
+
+libraries:
+  - drupy/global-styling
+  - drupy/global-scripts
+
+# Regions
+
+regions:
+  brand: 'Site branding'
+  main_menu: 'Main navigation'
+  secondary_menu: 'Secondary navigation'
+  hero: 'Hero'
+  featured: 'Featured'
+  breadcrumbs: 'Breadcrumbs'
+  help: 'Help'
+  tabs: 'Tabs'
+  content: 'Content'
+  footer: 'Footer'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+
+# Information added by Drupal.org packaging script on 2023-02-17
+version: '1.2.0'
+project: 'drupy'
+datestamp: 1676652655

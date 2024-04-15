@@ -1,0 +1,57 @@
+@mixin transition($property: all, $delay: 0.2s) {
+  -webkit-transition: $property $delay ease-in-out;
+     -moz-transition: $property $delay ease-in-out;
+      -ms-transition: $property $delay ease-in-out;
+          transition: $property $delay ease-in-out;
+}
+
+@mixin box-shadow($color: #000000, $opacity: 1) {
+  -webkit-box-shadow: 0px 5px 10px rgba($color, $opacity);
+     -moz-box-shadow: 0px 5px 10px rgba($color, $opacity);
+      -ms-box-shadow: 0px 5px 10px rgba($color, $opacity);
+          box-shadow: 0px 5px 10px rgba($color, $opacity);
+}
+
+@mixin scale($scale) {
+  -webkit-transform: scale($scale);
+     -moz-transform: scale($scale);
+      -ms-transform: scale($scale);
+          transform: scale($scale);
+}
+
+@mixin border($color) {
+  border-left: 1px solid $color;
+  border-top: 1px solid $color;
+  border-right: 1px solid $color;
+  border-bottom: 1px solid $color;
+}
+
+
+@mixin center-block($value) {
+  display: table;
+  margin: 0 auto;
+  width: 100%;
+  max-width: $value;
+}
+
+@mixin center-element() {
+  display: table;
+  margin: 0 auto;
+  width: auto;
+  max-width: initial;
+}
+
+@mixin img-fluid() {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+@mixin no-select() {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}

@@ -1,0 +1,150 @@
+<?php
+
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Implements template_preprocess_html().
+ *
+ * @see https://drupal.stackexchange.com/a/230856/54807
+ */
+function drupy_preprocess_html(&$variables) {
+  // Add helper class to the <body> tag, depending if the page is front or not.
+  $is_front = \Drupal::service('path.matcher')->isFrontPage();
+  $variables['attributes'] = new Attribute($variables['attributes']);
+  if ($is_front) {
+    $variables['attributes']->addClass('front');
+  }
+  else {
+    $variables['attributes']->addClass('not-front');
+  }
+  // Add content-type helper class to the <body>, for node pages.
+  if (isset($variables['node_type']) && !empty($variables['node_type'])) {
+    $node_type = 'node-type-' . $variables['node_type'];
+    $variables['attributes'] = new Attribute($variables['attributes']);
+    $variables['attributes']->addClass($node_type);
+  }
+  // Add nid helper class to the <body>, for node pages.
+  if ($node = \Drupal::request()->attributes->get('node')) {
+    $node_id = 'node-' . $node->id();
+    $variables['attributes'] = new Attribute($variables['attributes']);
+    $variables['attributes']->addClass($node_id);
+  }
+  // Add helper class to the <body> for non-node pages, based on the 'root_path'
+  if (isset($variables['root_path']) && $variables['root_path'] != FALSE) {
+    $page_type = 'page-' . $variables['root_path'];
+    $variables['attributes'] = new Attribute($variables['attributes']);
+    $variables['attributes']->addClass($page_type);
+  }
+  // Add helper class to the <body>, based on if the user is logged in or not
+  $logged_in = \Drupal::currentUser()->isAuthenticated();
+  if ($logged_in) {
+    $variables['attributes']->addClass('logged_in');
+  }
+  else {
+    $variables['attributes']->addClass('not_logged');
+  }
+}
+
+/**
+ * Implements hook_preprocess_page()
+ */
+function drupy_preprocess_page(array &$variables) {
+  // Making language variable available in client-side
+  // It will be useful to manage translation of strings managed by Javascript
+  // @see https://bit.ly/3vstonO
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['#attached']['drupalSettings']['language'] = $language;
+}
+
+/**
+ * Implements hook_preprocess_region().
+ */
+function drupy_preprocess_region(&$variables) {
+  // Create the $content variable that templates expect.
+  $variables['content'] = $variables['elements']['#children'];
+  $variables['region'] = $variables['elements']['#region'];
+  $variables['attributes']['class'][] = 'region';
+  $variables['attributes']['class'][] = 'region-' . str_replace('_', '-', $variables['elements']['#region']);
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function drupy_preprocess_block(&$variables) {
+  // Add common class 'block' to all blocks
+  $variables['attributes']['class'][] = 'block';
+  // Add custom class based on the bundle
+  if (isset($variables['elements']['content']['#block_content'])) {
+    $variables['attributes']['class'][] = str_replace('_',  '-',  $variables['elements']['content']['#block_content']->bundle());
+  }
+  // Add custom class based on the display mode
+  if (isset($variables['content']['#view_mode'])) {
+    $variables['attributes']['class'][] = 'block-' . str_replace('_', '-', $variables['content']['#view_mode']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_layout().
+ */
+function drupy_preprocess_layout(&$variables) {
+  /**
+   * Set a helper variables to determine Layout builder page context, such as:
+   *    - /node/[NID]
+   *    - /node/[NID]/layout
+   *    - /admin/structure/types/manage/[BUNDLE]/display/full/layout
+   */
+  $path = \Drupal::service('path.current')->getPath();
+  if (strpos($path, '/admin/structure/') !== false || preg_match('/\/node\/\d+\/layout/', $path)) {
+    $variables['adminPage'] = true;
+    $variables['context'] = 1;
+  }
+  else {
+    $variables['adminPage'] = false;
+    $variables['context'] = 0;
+  }
+}
+
+/**
+ * Implements hook_preprocess_preprocess_field().
+ */
+function drupy_preprocess_field(&$variables, $hook) {
+  $element = $variables['element'];
+  // Creating variables for the template.
+  $variables['entity_type'] = $element['#entity_type'];
+  $variables['field_name'] = $element['#field_name'] === 'body' ? 'field-' . $element['#field_name'] : $element['#field_name'];
+  $variables['field_type'] = $element['#field_type'];
+  $variables['label_display'] = $element['#label_display'];
+  $variables['label_hidden'] = $element['#label_display'] == 'hidden';
+  // Set custom attributes.
+  $variables['attributes']['class'][] = str_replace('_', '-', $variables['field_name']);
+  $variables['attributes']['class'][] = 'field-type-' . str_replace('_', '-', $variables['field_type']);
+  $variables['attributes']['class'][] = 'field-label-' . str_replace('_', '-', $variables['label_display']);
+}
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ *
+ * @see https://tinyurl.com/yxfaggq5
+ */
+function drupy_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  // Adds a new template suggestion based on the node type.
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    $content_type = $node->bundle();
+    $suggestions[] = 'page__' . $content_type;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_block_alter().
+ *
+ * @see https://tinyurl.com/yfglvlkg
+ */
+function drupy_theme_suggestions_block_alter(array &$suggestions, array $variables) {
+  // Adds a new template suggestion based on the type of the block.
+  if (isset($variables['elements']['content']['#block_content'])) {
+    $suggestions[] = 'block__' . $variables['elements']['content']['#block_content']->bundle();
+    if (!empty($variables['elements']['#id'])) {
+      $suggestions[] = 'block__' . $variables['elements']['content']['#block_content']->bundle() . '__' . $variables['elements']['#id'];
+    }
+  }
+}

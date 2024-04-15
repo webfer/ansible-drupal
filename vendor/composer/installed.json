@@ -1686,6 +1686,53 @@
             "install-path": null
         },
         {
+            "name": "drupal/drupy",
+            "version": "1.2.0",
+            "version_normalized": "1.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/drupy.git",
+                "reference": "1.2.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/drupy-1.2.0.zip",
+                "reference": "1.2.0",
+                "shasum": "05bfb153346ad6ba511e9d33acd3e820700dd0ff"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9 || ^10"
+            },
+            "type": "drupal-theme",
+            "extra": {
+                "drupal": {
+                    "version": "1.2.0",
+                    "datestamp": "1676652652",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "donbuche",
+                    "homepage": "https://www.drupal.org/user/602318"
+                }
+            ],
+            "description": "A responsive skeleton theme based on Bootstrap 5 and Webpack 4.",
+            "homepage": "https://www.drupal.org/project/drupy",
+            "support": {
+                "source": "https://git.drupalcode.org/project/drupy"
+            },
+            "install-path": "../../web/themes/contrib/drupy"
+        },
+        {
             "name": "drush/drush",
             "version": "12.4.3",
             "version_normalized": "12.4.3.0",

@@ -1,0 +1,56 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a three-column layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout <div>.
+ *
+ * @ingroup themeable
+ */
+#}
+{% if attributes.id %}
+  {% set layoutId = 'id=' ~ attributes.id %}
+{% endif %}
+{% if attributes.class[context] == 'container' or attributes.class[context] == 'container-fluid' %}
+  {% set containerClass = attributes.class[context] %}
+  {% set layoutClasses = attributes.removeClass(attributes.class[context]).addClass('layout', 'layout-3-cols') %}
+{% else %}
+  {% set containerClass = null %}
+  {% set layoutClasses = attributes.addClass('layout', 'layout-3-cols') %}
+{% endif %}
+
+{% if content %}
+  <section {{ layoutId }} {{ layoutClasses }}>
+
+    {% if containerClass is not null %}
+      <div class="{{ containerClass }}">
+        <div class="row">
+    {% endif %}
+
+      {% if content.first %}
+        <div {{ region_attributes.first }}>
+          {{ content.first }}
+        </div>
+      {% endif %}
+
+      {% if content.second %}
+        <div {{ region_attributes.second }}>
+          {{ content.second }}
+        </div>
+      {% endif %}
+
+      {% if content.last %}
+        <div {{ region_attributes.last }}>
+          {{ content.last }}
+        </div>
+      {% endif %}
+
+    {% if containerClass is not null %}
+        </div>
+      </div>
+    {% endif %}
+
+  </section>
+{% endif %}

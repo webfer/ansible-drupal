@@ -1,0 +1,16 @@
+// Example of @font-face declaration for custom font called 'Quentin'.
+
+// Notice that 'Montserrat' font doesn't require @font-face because
+// it's installed using npm and @fontsource, and managed by 
+// drupy/src/sass/index.scss file.
+
+// @font-face {
+//   font-family: 'quentin';
+//   src:  url('/assets/fonts/quentin/quentin.woff2') format('woff2'),
+//         url('/assets/fonts/quentin/quentin.woff') format('woff'),
+//         url('/assets/fonts/quentin/quentin.eot') format('eot'),
+//         url('/assets/fonts/quentin/quentin.ttf') format('ttf');
+//   font-weight: normal;
+//   font-style: normal;
+//   line-height: 1.5;
+// }

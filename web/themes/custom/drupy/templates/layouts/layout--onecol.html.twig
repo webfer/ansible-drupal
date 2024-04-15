@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a one-column layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout <div>.
+ *
+ * @ingroup themeable
+ */
+#}
+{% if attributes.id %}
+  {% set layoutId = 'id=' ~ attributes.id %}
+{% endif %}
+{% if attributes.class[context] == 'container' or attributes.class[context] == 'container-fluid' %}
+  {% set containerClass = attributes.class[context] %}
+  {% set layoutClasses = attributes.removeClass(attributes.class[context]).addClass('layout', 'layout-1-col') %}
+{% else %}
+  {% set containerClass = null %}
+  {% set layoutClasses = attributes.addClass('layout', 'layout-1-col') %}
+{% endif %}
+
+{% if content %}
+  <section {{ layoutId }} {{ layoutClasses }}>
+
+    {% if containerClass is not null %}
+      <div class="{{ containerClass }}">
+        <div class="row">
+    {% endif %}
+
+      <div {{ region_attributes.content }}>
+        {{ content.content }}
+      </div>
+
+    {% if containerClass is not null %}
+        </div>
+      </div>
+    {% endif %}
+
+  </section>
+{% endif %}

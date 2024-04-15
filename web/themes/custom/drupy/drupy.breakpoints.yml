@@ -1,0 +1,46 @@
+# Set your theme's breakpoints to manage your responsive images,
+# to be used along'Responsive images' and 'Breakpoint' modules.
+# You should enabled them in order this configuration take any effect.
+#
+# @see  https://bit.ly/3dh36yP
+#
+
+drupy.default:
+  label: DEFAULT
+  mediaQuery: '(max-width: 767px)'
+  weight: 4
+  multipliers:
+    - 1x
+    - 2x
+
+drupy.md:
+  label: MD
+  mediaQuery: '(min-width: 768px) and (max-width: 991px)'
+  weight: 3
+  multipliers:
+    - 1x
+    - 2x
+
+drupy.lg:
+  label: LG
+  mediaQuery: '(min-width: 992px) and (max-width: 1199px)'
+  weight: 2
+  multipliers:
+    - 1x
+    - 2x
+
+drupy.xl:
+  label: XL
+  mediaQuery: '(min-width: 1200px) and (max-width: 1399px)'
+  weight: 1
+  multipliers:
+    - 1x
+    - 2x
+
+drupy.xxl:
+  label: XXL
+  mediaQuery: '(min-width: 1400px)'
+  weight: 0
+  multipliers:
+    - 1x
+    - 2x

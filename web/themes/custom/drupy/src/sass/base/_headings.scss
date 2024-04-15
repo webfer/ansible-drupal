@@ -1,0 +1,23 @@
+h1 {
+  @include font(32px, 700);
+}
+
+h2 {
+  @include font(30px, 700);
+}
+
+h3 {
+  @include font(28px, 700);
+}
+
+h4 {
+  @include font(26px, 700);
+}
+
+h5 {
+  @include font(24px, 700);
+}
+
+h6 {
+  @include font(22px, 700);
+}

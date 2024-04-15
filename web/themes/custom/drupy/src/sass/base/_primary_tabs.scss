@@ -1,0 +1,51 @@
+div[id$="local-tasks"] {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+
+  .content ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto;
+
+    li {
+      background-color: rgba($dark, 0.85);
+      overflow: hidden;
+      display: block;
+
+      &:first-child {
+        border-radius: $radius 0 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 $radius 0 0 ;
+      }
+
+      a {
+        display: block;
+        color: $light;
+        padding: 0.5rem;
+        @include font(14px, 500);
+        @include transition();
+
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: $black;
+        }
+
+        a + a {
+          margin-left: 1rem;
+        }
+      }
+    }
+
+    li + li {
+      border-left: 1px solid $light;
+    }
+  }
+}

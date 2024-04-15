@@ -1,0 +1,155 @@
+# Custom layouts for Drupy theme.
+#
+# The main idea is to use Layout Builder along with Bootstrap 5 library loaded via npm in the theme,
+# getting rid of additional libraries or modules like 'Bootstrap Layout Builder'.
+
+# To get it working, we suggest you to also install 'Layout Builder Styles': https://www.drupal.org/project/layout_builder_styles
+#
+# ---------------------------------------------------------
+# HOW TO CONFIGURE IT?
+# ---------------------------------------------------------
+#
+# Once installed and enabled, go to /admin/config/content/layout_builder_style/group
+# and click on' Add layout builder style group'.
+#   - Set 'Region container' as tag and 'region_container' as machine name.
+#   - Enable 'User may only apply one style from this group per per section or block' checkbox.
+#   - Save changes.
+#
+# Now, go to /admin/config/content/layout_builder_style and lick on 'Add layout builder style'
+# and create a Booststrap container:
+#   - Set 'Container' as tag, and 'container' as machine name.
+#   - Set 'container' on the 'CSS classes' textarea.
+#   - Enable 'Section' on the Type checkboxes section.
+#   - Ensure the 'Group' is set to 'Region container' you created before.
+#   - On 'Layout restrictions', enable this style for all the layouts defined in this file.
+#   - Save changes.
+#
+# Repeat the above, now for a Container-fluid container:
+#   - Set 'Container Fluid' as tag, and 'container_fluid' as machine name.
+#   - Set 'container-fluid' on the 'CSS classes' textarea.
+#   - Enable 'Section' on the Type checkboxes section.
+#   - Ensure the 'Group' is set to 'Region container' you created before.
+#   - On 'Layout restrictions', enable this style for all the layouts defined in this file.
+#   - Save changes.
+#
+# Once the above is done, you'll find a new dropdown in the Layout Builder UI,
+# letting you to select the 'Region container' you want to apply to a given section.
+#
+# At last, you'll want to define Bootstrap-based column classes to all the regions of your Layout Builder's section.
+# Simply expand the 'Region attributes' and set you required Bootstrap on the 'Choose classes' fields.
+# Drupy theme will automatically add the 'row' wrappers if they're required, based on your 'Region container' selection.
+#
+# Additionally, you might want to disable the default layouts that Layout Builder provides in its UI.
+# See https://www.drupal.org/project/layout_disable for further information.
+#
+# This is a list of modules we suggest you to install, in order to improve your user experience using Layout Builder:
+#
+#   - Layout Builder Component Attributes:
+#     https://www.drupal.org/project/layout_builder_component_attributes
+#
+#   - Layout Custom Section Classes & Attributes
+#     https://www.drupal.org/project/layout_custom_section_classes
+#
+#   - Layout Builder Modal:
+#     https://www.drupal.org/project/layout_builder_modal
+#     Unforutnatelly, you'll might need to apply a patch along this module.
+#     See: https://www.drupal.org/project/layout_builder_modal/issues/3133695
+#     Patch: https://www.drupal.org/files/issues/2022-12-15/3133695-13.patch
+#
+#   - Layout Builder Save And Edit
+#     https://www.drupal.org/project/layout_builder_save_and_edit
+#
+#   - Layout Builder Symmetric Translations
+#     https://www.drupal.org/project/layout_builder_st
+#
+
+two_column:
+  label: '2 columns'
+  category: 'My Layouts'
+  template: templates/layouts/layout--twocol
+  default_region: first
+  icon_map:
+    - [first, last]
+  regions:
+    first:
+      label: First
+    last:
+      label: Last
+
+three_column:
+  label: '3 columns'
+  category: 'My Layouts'
+  template: templates/layouts/layout--threecol
+  default_region: first
+  icon_map:
+    - [first, second, last]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second
+    last:
+      label: Last
+
+four_column:
+  label: '4 columns'
+  category: 'My Layouts'
+  template: templates/layouts/layout--fourcol
+  default_region: first
+  icon_map:
+    - [first, second, third, last]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second
+    third:
+      label: Third
+    last:
+      label: Last
+
+five_column:
+  label: '5 columns'
+  category: 'My Layouts'
+  template: templates/layouts/layout--fivecol
+  default_region: first
+  icon_map:
+    - [first]
+    - [second]
+    - [third, fourth]
+    - [last]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second
+    third:
+      label: Third
+    fourth:
+      label: Fourth
+    last:
+      label: Last
+
+six_column:
+  label: '6 columns'
+  category: 'My Layouts'
+  template: templates/layouts/layout--sixcol
+  default_region: first
+  icon_map:
+    - [first]
+    - [second]
+    - [third, fourth, fifth]
+    - [last]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second
+    third:
+      label: Third
+    fourth:
+      label: Fourth
+    fifth:
+      label: Fifth
+    last:
+      label: Last

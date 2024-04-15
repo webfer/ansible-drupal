@@ -1,0 +1,51 @@
+{
+  "name": "drupy",
+  "version": "1.2.0",
+  "description": "A responsive skeleton theme based on Bootstrap 5 and Webpack 5.",
+  "main": "index.js",
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "babel-loader": "^9.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.2",
+    "file-loader": "^6.2.0",
+    "import-glob-loader": "^1.1.0",
+    "mini-css-extract-plugin": "^2.7.1",
+    "mini-svg-data-uri": "^1.4.4",
+    "node-sass-glob-importer": "^3.0.2",
+    "sass": "^1.56.1",
+    "sass-loader": "^13.2.0",
+    "source-map-loader": "^4.0.1",
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.6",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development webpack",
+    "build": "NODE_ENV=production webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donbuche/drupy.git"
+  },
+  "keywords": [
+    "Drupal 9"
+  ],
+  "author": "Joan Galtés i Moreno <donbuche@gmail.com> (https://www.arianewebdesign.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/donbuche/drupy/issues"
+  },
+  "homepage": "https://github.com/donbuche/drupy#readme",
+  "dependencies": {
+    "@fontsource/inter-tight": "^4.5.0",
+    "@fontsource/montserrat": "^4.5.13",
+    "axios": "^1.2.0",
+    "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.2",
+    "tiny-slider": "^2.9.4"
+  }
+}

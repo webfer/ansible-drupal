@@ -1,0 +1,67 @@
+// Variables
+@import './vars';
+
+// Plugins
+// Include here your plugins scss files.
+// Import example of a datepicker plugin added with npm:
+// @import '~js-datepicker/src/datepicker';
+
+// Mixins
+@import './mixins/mixins';
+
+// Fontsource's fonts
+@import './mixins/fonts';
+@import '~@fontsource/montserrat/latin-300.css'; // Light
+@import '~@fontsource/montserrat/latin-400.css'; // Regular
+@import '~@fontsource/montserrat/latin-500.css'; // Medium
+@import '~@fontsource/montserrat/latin-700.css'; // Bold
+@import '~@fontsource/montserrat/latin-900.css'; // Black
+
+// Bootstrap
+// More info at: https://getbootstrap.com/docs/5.2/customize/sass
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "~bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+@import './overrides';
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "~bootstrap/scss/variables";
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+
+// 6. Include any optional Bootstrap partial as needed
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/helpers";
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "~bootstrap/scss/utilities/api";
+
+// 8. Add your additional custom code here
+
+// Base
+@import './base/**/*.scss';
+
+// Components
+@import './components/**/*.scss';
+
+// Pages
+@import './pages/**/*.scss';
+
+// Blocks
+@import './blocks/**/*.scss';
+
+// Views
+// @import './views/**/*.scss';
