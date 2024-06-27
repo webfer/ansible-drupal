@@ -29,9 +29,10 @@ fi
 
 echo "Repository successfully cloned into $TARGET_DIR"
 
-# Move the contents of TARGET_DIR to DRUPAL_ROOT
-echo "Moving contents from $TARGET_DIR to $DRUPAL_ROOT"
-mv $TARGET_DIR/* $DRUPAL_ROOT
+# Move the contents of TARGET_DIR to DRUPAL_ROOT, excluding the scripts directory
+echo "Moving contents from $TARGET_DIR to $DRUPAL_ROOT (excluding scripts directory)"
+shopt -s extglob
+mv $TARGET_DIR/!(scripts) $DRUPAL_ROOT
 
 # Check if the move was successful
 if [ $? -ne 0 ]; then
@@ -40,6 +41,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # Remove the now empty TARGET_DIR
-rmdir $TARGET_DIR
+echo "Cleaning up"
+rm -rf $TARGET_DIR
 
-echo "Contents successfully moved to $DRUPAL_ROOT and $TARGET_DIR removed"
+echo "Contents successfully moved to $DRUPAL_ROOT, excluding the scripts directory"
+echo "$TARGET_DIR removed"
