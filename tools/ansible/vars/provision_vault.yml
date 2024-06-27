@@ -1,0 +1,28 @@
+---
+vault_database_name: xxxx # Database name. Replace the xxxx for your own database name.
+vault_database_user: xxxx # Database name. Replace the xxxx for your own database name.
+vault_database_password: 'xxxx' # Database pass, replace 'xxxx' for your database password.
+vault_server_client: xxxx #Server client. Replace "xxxx" for your own configuration. Usually in OkItUp should be like web233
+vault_server_group: client1
+vault_keep_releases: 4
+
+# Drupal admin configuration
+vault_account_drupal_name: xxxx # Drupal user account name. Replace the xxxx for your own Drupal user name.
+vault_account_drupal_pass: xxxx # Database account name. Replace the xxxx for your own database name.
+vault_account_drupal_site_name: xxxx # Drupal site name. Replace the xxxx for your own Drupal site name. It should be something like ICS Girona
+vault_theme_name: drupy
+vault_node_version: v18.13.0
+
+# Key sensitive, use this variables in lowercase
+vault_site_name: xxxx # Drupal site name. Replace the xxxx for your own Drupal site name. It should be something like ics
+vault_company_name: xxxx # Company name. Replace the xxxx for your own Company name. It should be something like tothomweb
+
+# Trusted domains. Take care about the config: This config is key sensitive, please keep the pattern like the example:
+#   '^example\.com$',
+#   '^.+\.example\.com$',
+#   '^example\.org$',
+#   '^.+\.example\.org$',
+vault_trusted_domains:
+  - '^.+\.andromeda\.tothomweb\.com$'
+  - '^andromeda\.com$'
+vault_drupal_hash_salt: '09b6d2197b2ee848e7e11ae5d61a29484c40e0b78fa3f492f1fadc16a8caeb04' # Drupal hash is the token Drupal identifier. You can find this hash in the settings.ddev.php file.
