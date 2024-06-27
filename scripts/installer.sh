@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Variables
@@ -29,3 +28,18 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Repository successfully cloned into $TARGET_DIR"
+
+# Move the contents of TARGET_DIR to DRUPAL_ROOT
+echo "Moving contents from $TARGET_DIR to $DRUPAL_ROOT"
+mv $TARGET_DIR/* $DRUPAL_ROOT
+
+# Check if the move was successful
+if [ $? -ne 0 ]; then
+  echo "Failed to move contents to Drupal root"
+  exit 1
+fi
+
+# Remove the now empty TARGET_DIR
+rmdir $TARGET_DIR
+
+echo "Contents successfully moved to $DRUPAL_ROOT and $TARGET_DIR removed"
