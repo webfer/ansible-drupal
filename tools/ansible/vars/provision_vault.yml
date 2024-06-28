@@ -14,7 +14,7 @@ vault_theme_name: drupy
 vault_node_version: v18.13.0
 
 # Key sensitive, use this variables in lowercase
-vault_site_name: andromeda
+vault_site_domain: andromeda
 vault_company_name: tothomweb
 
 # Trusted domains. Take care about the config:
@@ -23,6 +23,6 @@ vault_company_name: tothomweb
 #   '^example\.org$',
 #   '^.+\.example\.org$',
 vault_trusted_domains:
-  - '^.+\.andromeda\.tothomweb\.com$'
-  - '^andromeda\.com$'
+  - '^.+\.{{vault_site_domain}}\.{{vault_company_name}}\.com$'
+  - '^{{vault_site_domain}}\.com$'
 vault_drupal_hash_salt: "09b6d2197b2ee848e7e11ae5d61a29484c40e0b78fa3f492f1fadc16a8caeb04"
