@@ -1,21 +1,21 @@
 ---
-vault_database_name: xxxx # Database name. Replace the xxxx for your own database name.
-vault_database_user: xxxx # Database name. Replace the xxxx for your own database name.
-vault_database_password: 'xxxx' # Database pass, replace 'xxxx' for your database password.
-vault_server_client: xxxx #Server client. Replace "xxxx" for your own configuration. Usually in OkItUp should be like web233
+vault_database_name: xxxx # Database name. Replace the xxxx for your database name.
+vault_database_user: xxxx # Database user name. Replace the xxxx for your database user name.
+vault_database_password: 'xxxx' # Database pass, Replace 'xxxx' with your database password. Important! The pass should be enclosed in the quotes. Something like "d$cK&5;z8"
+vault_server_client: xxxx #Server client. Replace xxxx with your configuration. Usually in OkItUp should be like web233.
 vault_server_group: client1
 vault_keep_releases: 4
 
 # Drupal admin configuration
-vault_account_drupal_name: xxxx # Drupal user account name. Replace the xxxx for your own Drupal user name.
-vault_account_drupal_pass: xxxx # Database account name. Replace the xxxx for your own database name.
-vault_account_drupal_site_name: xxxx # Drupal site name. Replace the xxxx for your own Drupal site name. It should be something like ICS Girona
+vault_account_drupal_name: xxxx # Drupal user account name. Replace the xxxx with the Drupal administrator account user.
+vault_account_drupal_pass: xxxx # Database account pass. Replace the xxxx with the Drupal administrator account password.
+vault_account_drupal_site_name: xxxx # Drupal site name. Replace the xxxx with your Drupal site name. It should be something like ICS Girona
 vault_theme_name: drupy # This configuration works based on the Drupy Theme, Created by: donbuche. https://www.drupal.org/project/drupy
-vault_node_version: v18.13.0 # Drupal Node version. Replace it for your own Drupal Node version. By defaul should be v18.13.0
+vault_node_version: v18.13.0 # Drupal Node version. Replace it with your  Drupal Node version. By defaul should be v18.13.0
 
 # Key sensitive, use this variables in lowercase
-vault_site_name: xxxx # Drupal site name. Replace the xxxx for your own Drupal site name. It should be something like ics
-vault_company_name: xxxx # Company name. Replace the xxxx for your own Company name. It should be something like tothomweb
+vault_site_domain: 'xxxx' # Drupal domain name. Replace the xxxx with your Drupal site name. The domain name must be enclosed in the quotes. Very important! If it is a subdomain and contains a dot character, it must be escaped with a backslash. Something like "stage\.ics"
+vault_company_name: tothomweb # Company name. It must be tothomweb by default
 
 # Trusted domains. IMPORTANT! Take care about the config: This config is key sensitive, please keep the pattern like the example:
 #   '^example\.com$',
@@ -23,6 +23,6 @@ vault_company_name: xxxx # Company name. Replace the xxxx for your own Company n
 #   '^example\.org$',
 #   '^.+\.example\.org$',
 vault_trusted_domains:
-  - '^.+\.{{vault_site_name}}\.{{vault_company_name}}\.com$'
-  - '^{{vault_site_name}}\.com$'
+  - '^.+\.{{vault_site_domain}}\.{{vault_company_name}}\.com$'
+  - '^{{vault_site_domain}}\.com$'
 vault_drupal_hash_salt: 'xxxx' # "Drupal hash salt" is the token Drupal identifier. You can find this hash in the settings.ddev.php file of your project.
