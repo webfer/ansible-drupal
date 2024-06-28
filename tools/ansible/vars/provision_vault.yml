@@ -10,7 +10,7 @@ vault_keep_releases: 4
 vault_account_drupal_name: xxxx # Drupal user account name. Replace the xxxx for your own Drupal user name.
 vault_account_drupal_pass: xxxx # Database account name. Replace the xxxx for your own database name.
 vault_account_drupal_site_name: xxxx # Drupal site name. Replace the xxxx for your own Drupal site name. It should be something like ICS Girona
-vault_theme_name: drupy
+vault_theme_name: drupy # This configuration works based on the Drupy Theme, Created by: donbuche. https://www.drupal.org/project/drupy
 vault_node_version: v18.13.0 # Drupal Node version. Replace it for your own Drupal Node version. By defaul should be v18.13.0
 
 # Key sensitive, use this variables in lowercase
