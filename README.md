@@ -38,7 +38,7 @@ This project was bootstrapped with [Ansible](https://docs.ansible.com/ansible/la
 
    - Run this command in your Drupal root in order to download the bash file.
      `curl -o installer.sh https://raw.githubusercontent.com/webfer/ansible-drupal/main/scripts/installer.sh`
-     This file contains custom code snippets to install this mini-application into your Drupal project.
+     This file contains custom code snippets to install this application into your Drupal project.
 
 2. **Give permissions:**
 
@@ -52,7 +52,7 @@ This project was bootstrapped with [Ansible](https://docs.ansible.com/ansible/la
      Provide the password for your local machine.
      Note! Since it's an executable bash file, your local machine will prompt you for the password.
 
-   Fantastic! You've now cloned the configuration with the necessary Ansible files onto your local machine for deployment.
+   **Fantastic!** You have successfully cloned the configuration, along with the necessary Ansible files, onto your local machine for deployment.
 
 <br>
 <br>
@@ -67,18 +67,18 @@ Within your project, locate the following directories and files:
 
 1. **Tools / Ansible**
 
-   - The Tools > Ansible is the root directory inside of your Drupal project.
+   - The _Tools > Ansible_ is the root directory inside of your Drupal project.
 
 2. **provision_vault.yml**
 
-   - The provision_vault.yml file contains all variables for your connection between the local machine to the remote server.
+   - The _provision_vault.yml_ file contains all variables for your connection between the local machine to the remote server.
 
 3. **ansible.cf**
 
-   - The ansible.cf file contains additional configuration to make Ansible work as expected.
+   - The _ansible.cf_ file contains additional configuration to make Ansible work as expected.
 
 4. **vault_pass.txt**
-   - The vault_pass.txt file contains the pass to encrypt/decrypt the provision_vault.yml file.
+   - The _vault_pass.txt_ file contains the pass to encrypt/decrypt the provision_vault.yml file.
 
 <br>
 <br>
