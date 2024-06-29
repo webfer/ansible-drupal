@@ -4,8 +4,6 @@
 GITHUB_REPO_URL="https://github.com/webfer/ansible-drupal.git"
 DRUPAL_ROOT=$(pwd)
 TARGET_DIR="${DRUPAL_ROOT}/ansible-drupal"
-CURRENT_USER_ID=$(id -u)  # Get the user ID of the current user
-CURRENT_GROUP_ID=$(id -g)  # Get the group ID of the current user
 
 # Ensure the script is executed with root privileges
 if [ "$EUID" -ne 0 ]; then
@@ -31,10 +29,6 @@ fi
 
 echo "Repository successfully cloned into $TARGET_DIR"
 
-# Change ownership of the downloaded content (TARGET_DIR) to the current user and group
-echo "Assigning ownership of downloaded content to user:$CURRENT_USER_ID group:$CURRENT_GROUP_ID"
-chown -R $CURRENT_USER_ID:$CURRENT_GROUP_ID $TARGET_DIR
-
 # Move the contents of TARGET_DIR to DRUPAL_ROOT, excluding the scripts directory
 echo "Moving contents from $TARGET_DIR to $DRUPAL_ROOT (excluding scripts directory)"
 shopt -s extglob
@@ -49,10 +43,6 @@ fi
 # Remove the now empty TARGET_DIR
 echo "Cleaning up"
 rm -rf $TARGET_DIR
-
-# Change ownership of the Drupal root directory to the current user and group
-echo "Assigning ownership of Drupal root directory to user:$CURRENT_USER_ID group:$CURRENT_GROUP_ID"
-chown -R $CURRENT_USER_ID:$CURRENT_GROUP_ID $DRUPAL_ROOT
 
 echo "Contents successfully moved to $DRUPAL_ROOT, excluding the scripts directory"
 echo "$TARGET_DIR removed"
