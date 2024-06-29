@@ -1,4 +1,4 @@
-# Ansible-Drupal: Mini-Application to manage Drupal deployments
+# Ansible-Drupal: deployments
 
 <br>
 <br>
@@ -18,7 +18,8 @@ This project facilitates the deployment of Drupal applications to remote servers
 
 Before getting started, ensure the following prerequisites are met:
 
-- Ansible installed on your local machine. Follow the instructions in the following tutorial. [Ansible-drupal tutorial](https://intranet.tothomweb.com/node/342)
+- Ansible installed on your local machine. Follow the instructions. [Ansible-drupal tutorial](https://intranet.tothomweb.com/node/342)
+- Ansistrano deploy installed on your local machine. Follow the instructions. [Ansistrano-deployl](https://github.com/ansistrano/deploy)
 - Basic understanding of Drupal project structure and deployment processes.
 
 <br>
