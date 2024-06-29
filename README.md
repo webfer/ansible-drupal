@@ -18,8 +18,8 @@ This project facilitates the deployment of Drupal applications to remote servers
 
 Before getting started, ensure the following prerequisites are met:
 
-- Ansible installed on your local machine. Follow the instructions. [Ansible-drupal tutorial](https://intranet.tothomweb.com/node/342)
-- Ansistrano deploy installed on your local machine. Follow the instructions. [Ansistrano-deployl](https://github.com/ansistrano/deploy)
+- Ansible installed on your local machine. Follow the instructions. [Ansible-drupal](https://intranet.tothomweb.com/node/342)
+- Ansistrano deploy installed on your local machine. Follow the instructions. [Ansistrano-deploy](https://github.com/ansistrano/deploy)
 - Basic understanding of Drupal project structure and deployment processes.
 
 <br>
