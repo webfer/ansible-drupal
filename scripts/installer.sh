@@ -5,6 +5,7 @@ GITHUB_REPO_URL="https://github.com/webfer/ansible-drupal.git"
 DRUPAL_ROOT=$(pwd)
 TARGET_DIR="${DRUPAL_ROOT}/ansible-drupal"
 LOCAL_USER=$(whoami)  # Get the current user's username
+PRIMARY_GROUP=$(id -gn $LOCAL_USER)  # Get the primary group of the current user
 
 # Ensure the script is executed with root privileges
 if [ "$EUID" -ne 0 ]; then
@@ -45,9 +46,9 @@ fi
 echo "Cleaning up"
 rm -rf $TARGET_DIR
 
-# Change ownership of the Drupal root directory to the local user
-echo "Assigning ownership of Drupal root directory to $LOCAL_USER"
-chown -R $LOCAL_USER:$LOCAL_USER $DRUPAL_ROOT
+# Change ownership of the Drupal root directory to the local user and primary group
+echo "Assigning ownership of Drupal root directory to $LOCAL_USER:$PRIMARY_GROUP"
+chown -R $LOCAL_USER:$PRIMARY_GROUP $DRUPAL_ROOT
 
 echo "Contents successfully moved to $DRUPAL_ROOT, excluding the scripts directory"
 echo "$TARGET_DIR removed"
