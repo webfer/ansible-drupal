@@ -2,8 +2,8 @@
 # Set permissions
 - name: Set directory permissions for release_drupal_path
   file:
-    path: "{{ ansistrano_current_dir }}"
-    mode: "0755"
+    path: '{{ ansistrano_current_dir }}'
+    mode: '0755'
     state: directory
     recurse: yes
   tags:
@@ -11,61 +11,61 @@
 
 - name: Set directory permissions for ansistrano_shared_path
   file:
-    path: "{{ ansistrano_release_path.stdout }}/web/sites/default/files"
-    mode: "0755"
+    path: '{{ ansistrano_release_path.stdout }}/web/sites/default/files'
+    mode: '0755'
     state: directory
-    owner: "{{ vault_server_client }}"
-    group: "{{ vault_server_group }}"
+    owner: '{{ vault_server_client }}'
+    group: '{{ vault_server_group }}'
     recurse: true
 
 - name: Ensure properly permissions to vendor's directory
   file:
-    path: "{{ ansistrano_release_path.stdout }}/vendor"
-    mode: "0755"
+    path: '{{ ansistrano_release_path.stdout }}/vendor'
+    mode: '0755'
     state: directory
-    owner: "{{ vault_server_client }}"
-    group: "{{ vault_server_group }}"
+    owner: '{{ vault_server_client }}'
+    group: '{{ vault_server_group }}'
     recurse: true
 
-- name: Ensure properly permissions to Drupal's root directory
+- name: Ensure properly permissions to Drupal's root /web directory
   file:
-    path: "{{ ansistrano_release_path.stdout }}/web"
-    mode: "0755"
+    path: '{{ ansistrano_release_path.stdout }}/web'
+    mode: '0755'
     state: directory
-    owner: "{{ vault_server_client }}"
-    group: "{{ vault_server_group }}"
-    recurse: false
+    owner: '{{ vault_server_client }}'
+    group: '{{ vault_server_group }}'
+    recurse: true
 
-- name: Ensure properly permissions to Drupal's sites directory
-  file:
-    path: "{{ ansistrano_release_path.stdout }}/web/sites"
-    mode: "0755"
-    state: directory
-    owner: "{{ vault_server_client }}"
-    group: "{{ vault_server_group }}"
-    recurse: false
+# - name: Ensure properly permissions to Drupal's sites directory
+#   file:
+#     path: "{{ ansistrano_release_path.stdout }}/web/sites"
+#     mode: "0755"
+#     state: directory
+#     owner: "{{ vault_server_client }}"
+#     group: "{{ vault_server_group }}"
+#     recurse: false
 
-- name: Ensure properly permissions to Drupal's sites/default directory
-  file:
-    path: "{{ ansistrano_release_path.stdout }}/web/sites/default"
-    mode: "0755"
-    state: directory
-    owner: "{{ vault_server_client }}"
-    group: "{{ vault_server_group }}"
-    recurse: false
+# - name: Ensure properly permissions to Drupal's sites/default directory
+#   file:
+#     path: "{{ ansistrano_release_path.stdout }}/web/sites/default"
+#     mode: "0755"
+#     state: directory
+#     owner: "{{ vault_server_client }}"
+#     group: "{{ vault_server_group }}"
+#     recurse: false
 
-- name: Ensure properly permissions to Drupal's sites/default directory
-  file:
-    path: "{{ ansistrano_release_path.stdout }}/web/core"
-    mode: "0755"
-    state: directory
-    owner: "{{ vault_server_client }}"
-    group: "{{ vault_server_group }}"
-    recurse: false
+# - name: Ensure properly permissions to Drupal's sites/default directory
+#   file:
+#     path: "{{ ansistrano_release_path.stdout }}/web/core"
+#     mode: "0755"
+#     state: directory
+#     owner: "{{ vault_server_client }}"
+#     group: "{{ vault_server_group }}"
+#     recurse: false
 
 # Unarchive file sql from GZIP
 - name: Extract SQL file from Gzip archive using Drush Shell
-  ansible.builtin.shell: "gunzip -c {{ ansistrano_release_path.stdout }}/sql/db.sql.gz > {{ ansistrano_release_path.stdout }}/sql/db.sql"
+  ansible.builtin.shell: 'gunzip -c {{ ansistrano_release_path.stdout }}/sql/db.sql.gz > {{ ansistrano_release_path.stdout }}/sql/db.sql'
   # when: vault_mode == 'install'
   tags:
     - unarchive_db
@@ -73,20 +73,20 @@
 # Import database from local machine to remote server
 - name: Import MySQL Database
   ansible.builtin.mysql_db:
-    name: "{{ vault_database_name }}"
-    login_user: "{{ vault_database_user }}"
-    login_password: "{{ vault_database_password }}"
+    name: '{{ vault_database_name }}'
+    login_user: '{{ vault_database_user }}'
+    login_password: '{{ vault_database_password }}'
     state: import
-    target: "{{ ansistrano_release_path.stdout }}/sql/db.sql"
+    target: '{{ ansistrano_release_path.stdout }}/sql/db.sql'
   # when: vault_mode == 'install'
   tags:
     - db_update
 
 # Import configuration
 - name: Import configuration
-  command: "{{ release_drush_path }} config-import --yes --verbose"
+  command: '{{ release_drush_path }} config-import --yes --verbose'
   args:
-    chdir: "{{ ansistrano_release_path.stdout }}"
+    chdir: '{{ ansistrano_release_path.stdout }}'
   # when: vault_mode == 'update'
   tags:
     - import_config
@@ -96,7 +96,7 @@
   shell: |
     {{ release_drush_path }}
   args:
-    chdir: "{{ release_drupal_path }}"
+    chdir: '{{ release_drupal_path }}'
     executable: /bin/bash
   tags:
     - drupal

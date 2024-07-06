@@ -10,7 +10,7 @@
     - vars/deploy_vars.yml
 
   vars:
-    ansistrano_deploy_via: "rsync"
+    ansistrano_deploy_via: 'rsync'
     ansistrano_rsync_extra_params:
       - "--exclude='.ddev/'"
       - "--exclude='.DS_Store'"
@@ -19,21 +19,27 @@
       - "--exclude='.gitattributes'"
       - "--exclude='.gitignore'"
       - "--exclude='vault_pass.txt'"
+      - "--exclude='installer.sh'"
+      - "--exclude='LICENSE'"
+      - "--exclude='.prettierrc'"
+      - "--exclude='README.md'"
+      - "--exclude='bitbucket-pipelines.yml'"
+      - "--exclude='.vscode'"
       - "--exclude='web/sites/default/settings.ddev.php'"
       - "--exclude='web/sites/default/settings.local.php'"
 
-    ansistrano_deploy_from: "{{ playbook_dir }}/../../"
-    ansistrano_deploy_to: "{{ project_deploy_path }}"
-    ansistrano_keep_releases: "{{ vault_keep_releases }}"
+    ansistrano_deploy_from: '{{ playbook_dir }}/../../'
+    ansistrano_deploy_to: '{{ project_deploy_path }}'
+    ansistrano_keep_releases: '{{ vault_keep_releases }}'
 
     # Hooks
-    ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/deploy/after-update-code-tasks.yml"
-    ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/deploy/after-symlink.yml"
-    ansistrano_before_cleanup_tasks_file: "{{ playbook_dir }}/deploy/before-cleanup-tasks.yml"
+    ansistrano_after_update_code_tasks_file: '{{ playbook_dir }}/deploy/after-update-code-tasks.yml'
+    ansistrano_after_symlink_tasks_file: '{{ playbook_dir }}/deploy/after-symlink.yml'
+    ansistrano_before_cleanup_tasks_file: '{{ playbook_dir }}/deploy/before-cleanup-tasks.yml'
 
     ansistrano_shared_paths:
-      - "web/sites/default/files"
-      - "web/sites/default/private"
+      - 'web/sites/default/files'
+      - 'web/sites/default/private'
 
     ansistrano_shared_files:
-      - "web/sites/default/settings.live.php"
+      - 'web/sites/default/settings.live.php'
