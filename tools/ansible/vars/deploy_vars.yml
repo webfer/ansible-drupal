@@ -27,6 +27,4 @@ drupal_settings:
           trusted_hosts: '{{ vault_trusted_domains }}'
           extra_parameters: |
             $settings['config_sync_directory'] = '../config/sync';
-            $config['system.site']['uuid'] = {{ vault_drupal_uuid }};
-
             $settings['deployment_identifier'] = '{{ ansistrano_release_version }}';
