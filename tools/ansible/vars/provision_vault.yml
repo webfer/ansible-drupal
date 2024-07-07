@@ -17,9 +17,10 @@ vault_node_version: v18.13.0 # Drupal Node version. Replace it with your  Drupal
 vault_site_domain: 'xxxx' # Drupal domain name. Replace the xxxx with your Drupal site name. The domain name must be enclosed in the quotes.
 vault_company_name: tothomweb # Company name. It must be tothomweb by default
 
-vault_drupal_uuid:
-  '' # (Optional): UUID ensures unique identification of entities across instances and sites, aiding in content sync, migrations, and distribution.
-  # To get the UUI, you can run this command: drush config:get system.site uuid
+vault_drupal_uuid: ''
+# (Optional): UUID ensures unique identification of entities across instances and sites, aiding in content sync, migrations, and distribution.
+# To get the UUI, you can run this command: drush config:get system.site uuid
+
 # Trusted domains. IMPORTANT! Take care about the config: This config is key sensitive, please keep the pattern like the example:
 #   '^example\.com$',
 #   '^.+\.example\.com$',
