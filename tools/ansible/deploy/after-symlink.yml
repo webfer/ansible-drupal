@@ -7,7 +7,7 @@
     state: directory
     recurse: yes
   tags:
-    - pre-deploy
+    - ideploy
 
 - name: Set directory permissions for ansistrano_shared_path
   file:
@@ -17,6 +17,8 @@
     owner: '{{ vault_server_client }}'
     group: '{{ vault_server_group }}'
     recurse: true
+  tags:
+    - ideploy
 
 - name: Ensure properly permissions to vendor's directory
   file:
@@ -26,6 +28,8 @@
     owner: '{{ vault_server_client }}'
     group: '{{ vault_server_group }}'
     recurse: true
+  tags:
+    - ideploy
 
 - name: Ensure properly permissions to Drupal's root /web directory
   file:
@@ -35,33 +39,8 @@
     owner: '{{ vault_server_client }}'
     group: '{{ vault_server_group }}'
     recurse: true
-
-# - name: Ensure properly permissions to Drupal's sites directory
-#   file:
-#     path: "{{ ansistrano_release_path.stdout }}/web/sites"
-#     mode: "0755"
-#     state: directory
-#     owner: "{{ vault_server_client }}"
-#     group: "{{ vault_server_group }}"
-#     recurse: false
-
-# - name: Ensure properly permissions to Drupal's sites/default directory
-#   file:
-#     path: "{{ ansistrano_release_path.stdout }}/web/sites/default"
-#     mode: "0755"
-#     state: directory
-#     owner: "{{ vault_server_client }}"
-#     group: "{{ vault_server_group }}"
-#     recurse: false
-
-# - name: Ensure properly permissions to Drupal's sites/default directory
-#   file:
-#     path: "{{ ansistrano_release_path.stdout }}/web/core"
-#     mode: "0755"
-#     state: directory
-#     owner: "{{ vault_server_client }}"
-#     group: "{{ vault_server_group }}"
-#     recurse: false
+  tags:
+    - ideploy
 
 # Unarchive file sql from GZIP
 - name: Extract SQL file from Gzip archive using Drush Shell
@@ -91,7 +70,7 @@
   tags:
     - import_config
 
-# Clear cache
+# Rebuild Drupal cache
 - name: Rebuild Drupal cache using Drush
   shell: |
     {{ release_drush_path }}
