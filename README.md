@@ -48,7 +48,7 @@ This project was bootstrapped with [Ansible](https://docs.ansible.com/ansible/la
 3. **Install this application in your Drupal root:**
 
    - Run the following command to install Ansible within your Drupal project:
-     `sudo ./installer.sh`
+     `sudo ./installer.sh &&  sudo chown -R [your_local_user]:staff .`
      Provide the password for your local machine.
      Note! Since it's an executable bash file, your local machine will prompt you for the password.
 
