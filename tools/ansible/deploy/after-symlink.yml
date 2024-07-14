@@ -6,8 +6,6 @@
     mode: '0755'
     state: directory
     recurse: yes
-  tags:
-    - ideploy
 
 - name: Set directory permissions for ansistrano_shared_path
   file:
@@ -17,8 +15,6 @@
     owner: '{{ vault_server_client }}'
     group: '{{ vault_server_group }}'
     recurse: true
-  tags:
-    - ideploy
 
 - name: Ensure properly permissions to vendor's directory
   file:
@@ -28,8 +24,6 @@
     owner: '{{ vault_server_client }}'
     group: '{{ vault_server_group }}'
     recurse: true
-  tags:
-    - ideploy
 
 - name: Ensure properly permissions to Drupal's root /web directory
   file:
@@ -39,8 +33,6 @@
     owner: '{{ vault_server_client }}'
     group: '{{ vault_server_group }}'
     recurse: true
-  tags:
-    - ideploy
 
 # Unarchive file sql from GZIP
 - name: Extract SQL file from Gzip archive using Drush Shell
