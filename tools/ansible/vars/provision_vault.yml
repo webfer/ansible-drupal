@@ -24,6 +24,7 @@ vault_company_name: tothomweb # Company name. It must be tothomweb by default
 #   '^example\.org$',
 #   '^.+\.example\.org$',
 vault_trusted_domains:
-  - '^stage\.{{vault_site_domain}}\.{{vault_company_name}}\.com$'
-  - '^.+\.{{vault_site_domain}}\.{{vault_company_name}}\.com$'
+  - '^stage\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
+  - '^.+\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
+  - '^{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
 vault_drupal_hash_salt: 'xxxx' # "Drupal hash salt" is the token Drupal identifier. You can find this hash in the settings.ddev.php file of your project.
