@@ -127,10 +127,10 @@ function ansible-deploy() {
   # Conditional logic based on the options
   if [[ "$A_OPTION" == "stage" && "$B_OPTION" == "install" ]]; then
     echo "Executing stage-install path..."
-    # TODO: Add your stage-install logic here
+    ansible-playbook  tools/ansible/deploy.yml --skip-tags 'import_config'
   elif [[ "$A_OPTION" == "stage" && "$B_OPTION" == "update" ]]; then
     echo "Executing stage-update path..."
-    # TODO: Add your stage-update logic here
+    ansible-playbook  tools/ansible/deploy.yml --skip-tags 'ideploy, unarchive_db, db_update, ini_theming'
   elif [[ "$A_OPTION" == "live" && "$B_OPTION" == "install" ]]; then
     echo "Executing live-install path..."
     # TODO: Add your live-install logic here
