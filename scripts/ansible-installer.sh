@@ -30,8 +30,12 @@ function ansible-install() {
 
     # Move the contents of TARGET_DIR to PROJECT_ROOT, excluding the scripts directory
     echo "Moving contents from $TARGET_DIR to $PROJECT_ROOT (excluding scripts directory)"
-    shopt -s extglob
-    mv $TARGET_DIR/!(scripts) $DRUPAL_ROOT
+    for item in "$TARGET_DIR"/*; do
+        # Skip the scripts directory
+        if [ "$(basename "$item")" != "scripts" ]; then
+            mv "$item" "$PROJECT_ROOT"
+        fi
+    done
 
     # Check if the move was successful
     if [ $? -ne 0 ]; then
@@ -71,12 +75,12 @@ function ansible-deploy() {
     echo "Usage: ansible-deploy [--stage | --live] [--install | --update]"
     echo ""
     echo "Options:"
-    echo "  --stage      Deploys the site in a STAGE environment, including a Basic Auth with an .htpasswd"
-    echo "  --live     Deploys the site in a LIVE environment"
-    echo "  --install  Deploys the site for the first time, including a full database import"
-    echo "  --update   Deploys the changes done since the latest deploy, and the database is updated with a config import"
+    echo "  --stage    Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
+    echo "  --live     Deploys the site to a LIVE environment"
+    echo "  --install  Deploys the site for the first time, including a complete database import."
+    echo "  --update   Deploys the changes made since the last deployment, and updates the database with a configuration import."
     echo ""
-    echo "Both environment and action options are required."
+    echo "Both the environment and action options are required."
   }
 
   # Default values for options
@@ -112,7 +116,7 @@ function ansible-deploy() {
 
   # Check that both options are provided
   if [[ -z "$A_OPTION" || -z "$B_OPTION" ]]; then
-    echo "Error: Both environment and action options are required."
+    echo "Error: Both the environment and action options are required."
     print_usage
     return 1
   fi
