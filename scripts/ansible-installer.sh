@@ -30,11 +30,15 @@ function ansible-install() {
 
     # Move the contents of TARGET_DIR to PROJECT_ROOT, excluding the scripts directory
     echo "Moving contents from $TARGET_DIR to $PROJECT_ROOT (excluding scripts directory)"
+    # List of files and directories to exclude
+    EXCLUDE=("scripts" ".git" "LICENSE" "README.md" ".gitignore" ".gitattributes" ".editorconfig")
+
+    # Move the contents excluding the specified files and directories
     for item in "$TARGET_DIR"/*; do
-        # Skip the scripts directory
-        if [ "$(basename "$item")" != "scripts" ]; then
-            mv "$item" "$PROJECT_ROOT"
-        fi
+      basename_item=$(basename "$item")
+      if [[ ! " ${EXCLUDE[@]} " =~ " ${basename_item} " ]]; then
+          mv "$item" "$PROJECT_ROOT"
+      fi
     done
 
     # Check if the move was successful
@@ -126,13 +130,25 @@ function ansible-deploy() {
 
   # Function to ask for confirmation
   ask_for_confirmation() {
-      echo "Are you sure you want to proceed with the FIRST-TIME INSTALLATION? Type 'YES' to continue: "
-      read CONFIRMATION
-      if [[ "$CONFIRMATION" != "YES" ]]; then
-        echo "Operation aborted."
-        return 1
-      fi
-      return 0
+
+    # Define the yellow color
+    YELLOW='\033[1;33m'
+    # Reset color
+    NC='\033[0m'
+
+    # Print the confirmation prompt in yellow
+    echo -e "${YELLOW}Are you sure you want to proceed with the FIRST-TIME INSTALLATION? This will override the entire database! Type 'YES' to continue:${NC}"
+    
+    # Read user input
+    read CONFIRMATION
+    
+    # Check if the user input is not "YES"
+    if [[ "$CONFIRMATION" != "YES" ]]; then
+      echo "Operation aborted."
+      return 1
+    fi
+    
+    return 0
   }
 
 
