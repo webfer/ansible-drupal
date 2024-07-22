@@ -1,32 +1,47 @@
 ---
-vault_database_name: xxxx # Database name. Replace the xxxx for your database name.
-vault_database_user: xxxx # Database user name. Replace the xxxx for your database user name.
-vault_database_password: 'xxxx' # Database pass, Replace 'xxxx' with your database password. Important! The pass should be enclosed in the quotes. Something like "d$cK&5;z8"
-vault_server_client: xxxx #Server client. Replace xxxx with your configuration. Usually in OkItUp should be like web233.
-vault_server_group: client1
-vault_keep_releases: 4
+# Allowed Variables
 
-# Drupal admin configuration
-vault_account_drupal_name: xxxx # Drupal user account name. Replace the xxxx with the Drupal administrator account user.
-vault_account_drupal_pass: xxxx # Database account pass. Replace the xxxx with the Drupal administrator account password.
-vault_account_drupal_site_name: xxxx # Drupal site name. Replace the xxxx with your Drupal site name. It should be something like ICS Girona
-vault_theme_name: drupy # This configuration works based on the Drupy Theme, Created by: donbuche. https://www.drupal.org/project/drupy
-vault_node_version: v18.13.0 # Drupal Node version. Replace it with your  Drupal Node version. By defaul should be v18.13.0
-
-# Key sensitive, use this variables in lowercase
-vault_site_domain: 'xxxx' # Drupal domain name. Replace the xxxx with your Drupal site name. The domain name must be enclosed in the quotes.
-vault_company_name: tothomweb # Company name. It must be tothomweb by default
-vault_htpasswd_value: 'xxxx' # htpassd.  Replace the xxxx with your Drupal htpassd password.
-#vault_drupal_uuid: '' # UUID ensures unique identification of entities across instances and sites, aiding in content sync, migrations, and distribution. To get the UUI, you can run this command: drush config:get system.site uuid
-
-# Trusted domains. IMPORTANT! Take care about the config: This config is key sensitive, please keep the pattern like the example:
+# vault_database_name: Replace the xxxx value for your database name.
+# vault_database_user: Replace the xxxx value for your database user name.
+# vault_database_password: Replace 'xxxx' with your database password. Important! The pass should be enclosed in the quotes. Something like "d$cK&5;z8"
+# vault_server_client: Replace xxxx with your configuration. Usually in OkItUp should be like web233.
+# vault_account_drupal_name: Replace the xxxx value with the Drupal administrator account user.
+# vault_account_drupal_pass: Replace the xxxx value with the Drupal administrator account password.
+# vault_account_drupal_site_name: Replace the xxxx value with your Drupal site name. It should be something like ICS Girona
+# vault_theme_name: This configuration works based on the Drupy Theme, Created by: donbuche. https://www.drupal.org/project/drupy
+# vault_node_version: Replace it with your  Drupal Node version. By defaul should be v18.13.0
+# vault_drupal_hash_salt: "Drupal hash salt" is the token Drupal identifier. You can find this hash in the settings.ddev.php file of your project.
+# vault_site_domain: Replace the xxxx value with your Drupal site name. The domain name must be enclosed in the quotes.
+# vault_company_name: It must be tothomweb by default
+# vault_htpasswd_value: Replace the xxxx with your Drupal htpassd password.
+# vault_drupal_uuid: UUID ensures unique identification of entities across instances and sites, aiding in content sync, migrations, and distribution. To get the UUI, you can run this command: drush config:get system.site uuid
+# vault_trusted_domains: IMPORTANT! Take care about the config: This config is key sensitive, please keep the pattern like the example:
 #   '^example\.com$',
 #   '^.+\.example\.com$',
 #   '^example\.org$',
 #   '^.+\.example\.org$',
+
+vault_database_name: xxxx
+vault_database_user: xxxx
+vault_database_password: 'xxxx'
+vault_server_client: xxxx
+vault_server_group: client1
+vault_keep_releases: 2
+
+vault_account_drupal_name: xxxx
+vault_account_drupal_pass: xxxx
+vault_account_drupal_site_name: xxxx
+vault_theme_name: drupy
+vault_node_version: v18.13.0
+vault_drupal_hash_salt: 'xxxx'
+
+vault_site_domain: 'xxxx'
+vault_company_name: tothomweb
+vault_htpasswd_value: 'xxxx'
+#vault_drupal_uuid: ''
+
 vault_trusted_domains:
   - '^stage\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
   - '^.+\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
   - '^{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
   - '^{{vault_site_domain}}\.(dev|com|cat|es|org|nz|me)$'
-vault_drupal_hash_salt: 'xxxx' # "Drupal hash salt" is the token Drupal identifier. You can find this hash in the settings.ddev.php file of your project.
