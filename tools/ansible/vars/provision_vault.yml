@@ -27,4 +27,5 @@ vault_trusted_domains:
   - '^stage\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
   - '^.+\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
   - '^{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
+  - '^{{vault_site_domain}}\.(dev|com|cat|es|org|nz|me)$'
 vault_drupal_hash_salt: 'xxxx' # "Drupal hash salt" is the token Drupal identifier. You can find this hash in the settings.ddev.php file of your project.
