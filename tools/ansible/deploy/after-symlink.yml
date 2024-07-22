@@ -62,6 +62,34 @@
   tags:
     - import_config
 
+# Add authentication to .htaccess and create .htpasswd
+- name: Create .htpasswd file
+  copy:
+    dest: '{{ ansistrano_release_path.stdout }}/web/.htpasswd'
+    content: '{{ vault_company_name }}:{{ vault_htpasswd_value }}'
+    owner: '{{ vault_server_client }}'
+    group: '{{ vault_server_group }}'
+    mode: '0644'
+
+#Insert authentication  lines to .htaccess
+- name: Insert authentication lines at the top of .htaccess
+  shell: |
+    if [ -f {{ ansistrano_release_path.stdout }}/web/.htaccess ]; then
+      sed -i \
+        '1iAuthName "Usuari autoritzat"\n\
+        AuthType Basic\n\
+        AuthUserFile {{ ansistrano_release_path.stdout }}/web/.htpasswd\n\
+        Require valid-user' \
+        {{ ansistrano_release_path.stdout }}/web/.htaccess
+    else
+      echo "Error: .htaccess file not found." >&2
+      exit 1
+    fi
+  args:
+    executable: /bin/bash
+    chdir: '{{ ansistrano_release_path.stdout }}/web'
+  tags: auth
+
 # Rebuild Drupal cache
 - name: Rebuild Drupal cache using Drush
   shell: |
