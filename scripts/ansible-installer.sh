@@ -126,13 +126,15 @@ function ansible-deploy() {
 
   # Function to ask for confirmation
   ask_for_confirmation() {
-    read -p "Are you sure you want to proceed with the FIRST-TIME INSTALLATION? Type 'YES' to continue: " CONFIRMATION
-    if [[ "$CONFIRMATION" != "YES" ]]; then
-      echo "Operation aborted."
-      return 1
-    fi
-    return 0
+      echo "Are you sure you want to proceed with the FIRST-TIME INSTALLATION? Type 'YES' to continue: "
+      read CONFIRMATION
+      if [[ "$CONFIRMATION" != "YES" ]]; then
+        echo "Operation aborted."
+        return 1
+      fi
+      return 0
   }
+
 
   # Conditional logic based on the options
   if [[ "$A_OPTION" == "stage" && "$B_OPTION" == "install" ]]; then
