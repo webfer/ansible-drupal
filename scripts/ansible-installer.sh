@@ -124,16 +124,34 @@ function ansible-deploy() {
   # Print the selected options
   echo "Selected options: --$A_OPTION --$B_OPTION"
 
+  # Function to ask for confirmation
+  ask_for_confirmation() {
+    read -p "Are you sure you want to proceed with the FIRST-TIME INSTALLATION? Type 'YES' to continue: " CONFIRMATION
+    if [[ "$CONFIRMATION" != "YES" ]]; then
+      echo "Operation aborted."
+      return 1
+    fi
+    return 0
+  }
+
   # Conditional logic based on the options
   if [[ "$A_OPTION" == "stage" && "$B_OPTION" == "install" ]]; then
     echo "Executing stage-install path..."
-    ansible-playbook  tools/ansible/deploy.yml --skip-tags 'import_config'
+    if ask_for_confirmation; then
+      ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config'
+    else
+      return 1
+    fi
   elif [[ "$A_OPTION" == "stage" && "$B_OPTION" == "update" ]]; then
     echo "Executing stage-update path..."
     ansible-playbook  tools/ansible/deploy.yml --skip-tags 'ideploy, unarchive_db, db_update, ini_theming'
   elif [[ "$A_OPTION" == "live" && "$B_OPTION" == "install" ]]; then
     echo "Executing live-install path..."
-    # TODO: Add your live-install logic here
+    if ask_for_confirmation; then
+    # TODO: ansible-playbook command for live-install goes here
+    else
+      return 1
+    fi
   elif [[ "$A_OPTION" == "live" && "$B_OPTION" == "update" ]]; then
     echo "Executing live-update path..."
     # TODO: Add your live-update logic here
