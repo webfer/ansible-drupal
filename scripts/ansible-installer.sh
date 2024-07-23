@@ -208,8 +208,6 @@ autorun() {
     fi
 }
 
-# Call the autorun function
-autorun
 
 # Ensure the function is available in both bash and zsh
 if [ -n "$ZSH_VERSION" ]; then
