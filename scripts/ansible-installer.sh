@@ -61,28 +61,25 @@ function ansible-install() {
   return 0
 }
 
-# Ensure the function is available in both bash and zsh
-if [ -n "$ZSH_VERSION" ]; then
-  autoload -Uz ansible-install
-fi
-
 function ansible-deploy() {
   # Function to print usage instructions
   function print_usage() {
-    echo "Usage: ansible-deploy [--stage | --live] [--install | --update]"
+    echo "Usage: ansible-deploy [--stage | --live] [--install | --update] [--assets]"
     echo ""
     echo "Options:"
     echo "  --stage    Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
     echo "  --live     Deploys the site to a LIVE environment"
     echo "  --install  Deploys the site for the first time, including a complete database import."
     echo "  --update   Deploys the changes made since the last deployment, and updates the database with a configuration import."
+    echo "  --assets   (Optional) Deploys and synchronizes the assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
     echo ""
-    echo "Both the environment and action options are required."
+    echo "Both the environment and action options are required. The assets option is optional."
   }
 
   # Default values for options
   A_OPTION=""
   B_OPTION=""
+  C_OPTION=""
 
   # Parse arguments
   while [[ "$#" -gt 0 ]]; do
@@ -103,6 +100,10 @@ function ansible-deploy() {
         B_OPTION="update"
         shift
         ;;
+      --assets)
+        C_OPTION="assets"
+        shift
+        ;;        
       *)
         echo "Error: Invalid option $1"
         print_usage
@@ -111,7 +112,7 @@ function ansible-deploy() {
     esac
   done
 
-  # Check that both options are provided
+  # Check that the environment and action options are provided
   if [[ -z "$A_OPTION" || -z "$B_OPTION" ]]; then
     echo "Error: Both the environment and action options are required."
     print_usage
@@ -119,18 +120,17 @@ function ansible-deploy() {
   fi
 
   # Print the selected options
-  echo "Selected options: --$A_OPTION --$B_OPTION"
+  echo "Selected options: --$A_OPTION --$B_OPTION ${C_OPTION:+--$C_OPTION}"
 
   # Function to ask for confirmation
   ask_for_confirmation() {
-
     # Define the yellow color
     YELLOW='\033[1;33m'
     # Reset color
     NC='\033[0m'
 
     # Print the confirmation prompt in yellow
-    echo -e "${YELLOW}Are you sure you want to proceed with the FIRST-TIME INSTALLATION? This will override the entire database! Type 'YES' to continue:${NC}"
+    echo -e "${YELLOW}🚨 Are you sure you want to proceed with the FIRST-TIME INSTALLATION? Be careful! This action cannot be undone and will overwrite your database. Type 'YES' to continue:${NC}"
     
     # Read user input
     read CONFIRMATION
@@ -144,22 +144,31 @@ function ansible-deploy() {
     return 0
   }
 
-
   # Conditional logic based on the options
   if [[ "$A_OPTION" == "stage" && "$B_OPTION" == "install" ]]; then
     echo "Executing stage-install path..."
     if ask_for_confirmation; then
-      ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config'
+      if [[ "$C_OPTION" == "assets" ]]; then
+        echo "Including assets in deployment..."
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config'
+      else
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets'
+      fi
     else
       return 1
     fi
   elif [[ "$A_OPTION" == "stage" && "$B_OPTION" == "update" ]]; then
     echo "Executing stage-update path..."
-    ansible-playbook  tools/ansible/deploy.yml --skip-tags 'ideploy, unarchive_db, db_update, ini_theming'
+    ansible-playbook tools/ansible/deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets'
   elif [[ "$A_OPTION" == "live" && "$B_OPTION" == "install" ]]; then
     echo "Executing live-install path..."
     if ask_for_confirmation; then
-    # TODO: ansible-playbook command for live-install goes here
+      if [[ "$C_OPTION" == "assets" ]]; then
+        echo "Including assets in deployment..."
+        # TODO: ansible-playbook command for live-install with assets goes here
+      else
+        # TODO: ansible-playbook command for live-install without assets goes here
+      fi
     else
       return 1
     fi
@@ -174,6 +183,7 @@ function ansible-deploy() {
 
   return 0
 }
+
 
 # Define the line to add
 LINE="source ~/.bin/ansible-installer.sh"
