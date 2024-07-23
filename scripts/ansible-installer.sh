@@ -22,7 +22,7 @@ function ansible-install() {
     echo "Repository successfully cloned into $TARGET_DIR"
 
     # Move the contents of TARGET_DIR to PROJECT_ROOT.
-    echo "Moving contents from $TARGET_DIR to $PROJECT_ROOT (excluding scripts directory)"
+    echo "Moving contents from $TARGET_DIR to $PROJECT_ROOT"
     # List of files and directories to include
     INCLUDE=("ansible.cfg" "tools" "vault_pass.txt")
 
