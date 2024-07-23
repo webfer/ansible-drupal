@@ -73,4 +73,4 @@
     rsync_opts:
       - '--chmod=ugo=rwX'
   tags:
-    - ideploy
+    - deploy_assets
