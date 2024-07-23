@@ -4,19 +4,12 @@ function ansible-install() {
   # Variables
   GITHUB_REPO_URL="https://github.com/webfer/ansible-drupal.git"
   PROJECT_ROOT=$(pwd)
-  TARGET_DIR="${PROJECT_ROOT}/ansible-drupal"
+  TARGET_DIR="${PROJECT_ROOT}/tmp/ansible-drupal"
 
   # Check if "vendor" and "web" directories exist in PROJECT_ROOT
   if [ -d "${PROJECT_ROOT}/vendor" ] && [ -d "${PROJECT_ROOT}/web" ]; then
 
-
-    # Check if the Drupal root directory exists
-    if [ ! -d "$PROJECT_ROOT" ]; then
-      echo "Drupal root directory does not exist: $PROJECT_ROOT"
-      exit 1
-    fi
-
-    # Clone the repository into the Drupal root directory
+    # Clone the repository into the TMP directory
     echo "Cloning the repository into $TARGET_DIR"
     git clone $GITHUB_REPO_URL $TARGET_DIR
 
@@ -28,17 +21,17 @@ function ansible-install() {
 
     echo "Repository successfully cloned into $TARGET_DIR"
 
-    # Move the contents of TARGET_DIR to PROJECT_ROOT, excluding the scripts directory
+    # Move the contents of TARGET_DIR to PROJECT_ROOT.
     echo "Moving contents from $TARGET_DIR to $PROJECT_ROOT (excluding scripts directory)"
-    # List of files and directories to exclude
-    EXCLUDE=("scripts" ".git" "LICENSE" "README.md" ".gitignore" ".gitattributes" ".editorconfig")
+    # List of files and directories to include
+    INCLUDE=("ansible.cfg" "tools" "vault_pass.txt")
 
-    # Move the contents excluding the specified files and directories
+    # Move the contents including only the specified files and directories
     for item in "$TARGET_DIR"/*; do
-      basename_item=$(basename "$item")
-      if [[ ! " ${EXCLUDE[@]} " =~ " ${basename_item} " ]]; then
-          mv "$item" "$PROJECT_ROOT"
-      fi
+        basename_item=$(basename "$item")
+        if [[ " ${INCLUDE[@]} " =~ " ${basename_item} " ]]; then
+            mv "$item" "$PROJECT_ROOT"
+        fi
     done
 
     # Check if the move was successful
@@ -51,8 +44,8 @@ function ansible-install() {
     echo "Cleaning up"
     rm -rf $TARGET_DIR
 
-    echo "Contents successfully moved to $PROJECT_ROOT, excluding the scripts directory"
     echo "$TARGET_DIR removed"
+    echo "Contents successfully moved to $PROJECT_ROOT, including: $INCLUDE"
 
 
   else
