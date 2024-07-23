@@ -63,3 +63,14 @@
       dest: '{{ ansistrano_shared_path }}/web/sites/default/settings.live.php'
   tags:
     - ideploy
+
+# Synchronize assets files to the remote server
+- name: Deploy assets files to the remote server
+  synchronize:
+    src: '{{ local_assets_path }}'
+    dest: '{{ ansistrano_shared_path }}/web/sites/default/files'
+    delete: yes
+    rsync_opts:
+      - '--chmod=ugo=rwX'
+  tags:
+    - ideploy
