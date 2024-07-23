@@ -38,49 +38,6 @@
   tags:
     - ini_theming
 
-# Update node JS
-- name: Update Node.js in local project
-  npm:
-    path: '{{ ansistrano_release_path.stdout }}/web/themes/custom/{{ vault_theme_name }}'
-    name: node
-    version: '{{ vault_node_version }}'
-  register: node_update_result
-  # tags:
-  #   - ini_theming
-
-- name: Check if Node.js update succeeded
-  fail:
-    msg: 'Node.js update failed'
-  when: node_update_result.failed
-  # tags:
-  #   - ini_theming
-
-# Install dependencies npm install
-- name: Install dependencies and compile theme with npm
-  npm:
-    path: '{{ ansistrano_release_path.stdout }}/web/themes/custom/{{ vault_theme_name }}'
-    state: present
-    production: yes
-  register: npm_install_result
-
-- name: Check if npm install succeeded
-  fail:
-    msg: 'npm install failed'
-  when: npm_install_result.failed
-
-# Compile theme
-- name: Run webpack to compile theme
-  shell: npm run build
-  args:
-    chdir: '{{ ansistrano_release_path.stdout }}/web/themes/custom/{{ vault_theme_name }}'
-- debug:
-    msg: "Theme '{{ vault_theme_name }}' exists."
-  when: theme_exists.stat.exists
-
-- debug:
-    msg: "Theme '{{ vault_theme_name }}' does not exist."
-  when: not theme_exists.stat.exists
-
 # Rebuild Drupal cache
 - name: Rebuild Drupal cache using Drush
   shell: |
