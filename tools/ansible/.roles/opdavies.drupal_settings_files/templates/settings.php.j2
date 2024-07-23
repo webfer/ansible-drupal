@@ -10,6 +10,9 @@ $databases['{{ key }}']['{{ target }}'] = array(
   'database' => '{{ values.database }}',
   'username' => '{{ values.username }}',
   'password' => '{{ values.password }}',
+  'init_commands' => [
+    'isolation_level' => '{{ values.isolevel }}',
+  ],  
 );
 
 {% endfor %}
