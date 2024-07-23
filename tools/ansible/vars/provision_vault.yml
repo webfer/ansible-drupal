@@ -7,7 +7,6 @@
 # vault_server_client: Replace xxxx with your configuration. Usually in OkItUp should be like web233.
 # vault_account_drupal_name: Replace the xxxx value with the Drupal administrator account user.
 # vault_account_drupal_pass: Replace the xxxx value with the Drupal administrator account password.
-# vault_account_drupal_site_name: Replace the xxxx value with your Drupal site name. It should be something like ICS Girona
 # vault_theme_name: This configuration works based on the Drupy Theme, Created by: donbuche. https://www.drupal.org/project/drupy
 # vault_node_version: Replace it with your  Drupal Node version. By defaul should be v18.13.0
 # vault_drupal_hash_salt: "Drupal hash salt" is the token Drupal identifier. You can find this hash in the settings.ddev.php file of your project.
@@ -30,7 +29,6 @@ vault_keep_releases: 2
 
 vault_account_drupal_name: xxxx
 vault_account_drupal_pass: xxxx
-vault_account_drupal_site_name: xxxx
 vault_theme_name: drupy
 vault_node_version: v18.13.0
 vault_drupal_hash_salt: 'xxxx'
