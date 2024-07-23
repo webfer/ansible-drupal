@@ -175,6 +175,42 @@ function ansible-deploy() {
   return 0
 }
 
+# Define the line to add
+LINE="source ~/.bin/ansible-installer.sh"
+
+# Define the target files
+ZSHRC_FILE="$HOME/.zshrc"
+BASHRC_FILE="$HOME/.bashrc"
+
+# Function to insert the line at the top of the file if not already present
+insert_line_if_not_present() {
+    local file=$1
+    if [ -f "$file" ]; then
+        if ! grep -Fxq "$LINE" "$file"; then
+            echo -e "$LINE\n$(cat $file)" > $file
+            echo "Added the line to $file"
+        else
+            echo "The line is already present in $file"
+        fi
+    fi
+}
+
+# Function to check for .zshrc and .bashrc and insert the line if they exist
+autorun() {
+    if [ -f "$ZSHRC_FILE" ]; then
+        insert_line_if_not_present "$ZSHRC_FILE"
+        source "$ZSHRC_FILE"
+    elif [ -f "$BASHRC_FILE" ]; then
+        insert_line_if_not_present "$BASHRC_FILE"
+        source "$BASHRC_FILE"
+    else
+        echo "Neither .zshrc nor .bashrc exists."
+    fi
+}
+
+# Call the autorun function
+autorun
+
 # Ensure the function is available in both bash and zsh
 if [ -n "$ZSH_VERSION" ]; then
   autoload -Uz ansible-deploy
