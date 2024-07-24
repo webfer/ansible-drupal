@@ -64,16 +64,16 @@ function ansible-install() {
 function ansible-deploy() {
   # Function to print usage instructions
   function print_usage() {
-    echo "Usage: ansible-deploy [--stage | --live] [--install | --update] [--assets]"
+    echo "Usage: ansible-deploy [--stage | --live] [--install | --update] [--with-assets]"
     echo ""
     echo "Options:"
-    echo "  --stage    Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
-    echo "  --live     Deploys the site to a LIVE environment"
-    echo "  --install  Deploys the site for the first time, including a complete database import."
-    echo "  --update   Deploys the changes made since the last deployment, and updates the database with a configuration import."
-    echo "  --assets   (Optional) Deploys and synchronizes the assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
+    echo "  --stage         Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
+    echo "  --live          Deploys the site to a LIVE environment"
+    echo "  --install       Deploys the site for the first time, including a complete database import."
+    echo "  --update        Deploys the changes made since the last deployment, and updates the database with a configuration import."
+    echo "  --with-assets   (Optional) Deploys and synchronizes the with-assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
     echo ""
-    echo "Both the environment and action options are required. The assets option is optional."
+    echo "Both the environment and action options are required. The --with-assets option is optional."
   }
 
   # Default values for options
@@ -100,8 +100,8 @@ function ansible-deploy() {
         B_OPTION="update"
         shift
         ;;
-      --assets)
-        C_OPTION="assets"
+      --with-assets)
+        C_OPTION="with-assets"
         shift
         ;;        
       *)
@@ -148,8 +148,8 @@ function ansible-deploy() {
   if [[ "$A_OPTION" == "stage" && "$B_OPTION" == "install" ]]; then
     echo "Executing stage-install path..."
     if ask_for_confirmation; then
-      if [[ "$C_OPTION" == "assets" ]]; then
-        echo "Including assets in deployment..."
+      if [[ "$C_OPTION" == "with-assets" ]]; then
+        echo "Including with-assets in deployment..."
         ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config'
       else
         ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets'
@@ -163,11 +163,11 @@ function ansible-deploy() {
   elif [[ "$A_OPTION" == "live" && "$B_OPTION" == "install" ]]; then
     echo "Executing live-install path..."
     if ask_for_confirmation; then
-      if [[ "$C_OPTION" == "assets" ]]; then
-        echo "Including assets in deployment..."
-        # TODO: ansible-playbook command for live-install with assets goes here
+      if [[ "$C_OPTION" == "with-assets" ]]; then
+        echo "Including with-assets in deployment..."
+        # TODO: ansible-playbook command for live-install with with-assets goes here
       else
-        # TODO: ansible-playbook command for live-install without assets goes here
+        # TODO: ansible-playbook command for live-install without with-assets goes here
       fi
     else
       return 1

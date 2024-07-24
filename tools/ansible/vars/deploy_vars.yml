@@ -21,7 +21,7 @@ drupal_settings:
                 database: '{{ vault_database_name }}'
                 username: '{{ vault_database_user }}'
                 password: '{{ vault_database_password }}'
-                isolevel: "SET SESSION transaction_isolation=\\'READ-COMMITTED\\'"
+                isolevel: 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'
           hash_salt: '{{ vault_drupal_hash_salt }}'
           config_directories:
             sync: ../config/sync
