@@ -37,20 +37,13 @@ This project was bootstrapped with [Ansible](https://docs.ansible.com/ansible/la
 1. **Download installer:**
 
    - Run this command in your Drupal root in order to download the bash file.
-     `curl -o installer.sh https://raw.githubusercontent.com/webfer/ansible-drupal/main/scripts/installer.sh`
+     `mkdir -p ~/.bin && curl -o ~/.bin/ansible-installer.sh https://raw.githubusercontent.com/webfer/ansible-drupal/main/scripts/ansible-installer.sh && source ~/.bin/ansible-installer.sh && autorun`
      This file contains custom code snippets to install this application into your Drupal project.
 
-2. **Give permissions:**
-
-   - Make sure to give execute permissions to the downloaded file. To do this, run the following command:
-     `chmod +x installer.sh`
-
-3. **Install this application in your Drupal root:**
+2. **Install this application in your Drupal root:**
 
    - Run the following command to install Ansible within your Drupal project:
-     `sudo ./installer.sh &&  sudo chown -R [your_local_user]:staff .`
-     Provide the password for your local machine.
-     Note! Since it's an executable bash file, your local machine will prompt you for the password.
+     `ansible-install`
 
    **Fantastic!** You have successfully cloned the configuration, along with the necessary Ansible files, onto your local machine for deployment.
 
@@ -79,6 +72,36 @@ Within your project, locate the following directories and files:
 
 4. **vault_pass.txt**
    - The _vault_pass.txt_ file contains the pass to encrypt/decrypt the provision_vault.yml file.
+
+<br>
+<br>
+
+## Initial deployment
+
+These are the allowed options:
+
+**--stage** Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file.
+
+**--live** Deploys the site to a LIVE environment
+
+**--install** Deploys the site for the first time, including a complete database import.
+
+**--update** Deploys the changes made since the last deployment, and updates the database with a configuration import.
+
+**--with-assets** (Optional) Deploys and synchronizes the with-assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server.
+<br>
+For initial deployment in the staging environment without assets, run this command in your terminal:
+`ansible-deploy --stage --install`
+The above command will deploy without including the assets folder.
+<br>
+For initial deployment in the staging environment with assets, run this command in your terminal:
+`ansible-deploy --stage --install --with-assets`
+The above command will deploy including the assets folder.
+
+## Regular deployment
+
+For regular deployment, run in your terminal this command:
+`ansible-deploy --stage --update `
 
 <br>
 <br>
