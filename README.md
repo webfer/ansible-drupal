@@ -37,15 +37,18 @@ This project was bootstrapped with [Ansible](https://docs.ansible.com/ansible/la
 1. **Download installer:**
 
    - Run this command in your Drupal root in order to download the bash file.
+     <br>
      `mkdir -p ~/.bin && curl -o ~/.bin/ansible-installer.sh https://raw.githubusercontent.com/webfer/ansible-drupal/main/scripts/ansible-installer.sh && source ~/.bin/ansible-installer.sh && autorun`
+     <br>
      This file contains custom code snippets to install this application into your Drupal project.
 
 2. **Install this application in your Drupal root:**
 
    - Run the following command to install Ansible within your Drupal project:
+     <br>
      `ansible-install`
-
-   **Fantastic!** You have successfully cloned the configuration, along with the necessary Ansible files, onto your local machine for deployment.
+     <br>
+     **Fantastic!** You have successfully cloned the configuration, along with the necessary Ansible files, onto your local machine for deployment.
 
 <br>
 <br>
@@ -90,17 +93,24 @@ These are the allowed options:
 
 **--with-assets** (Optional) Deploys and synchronizes the with-assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server.
 <br>
+<br>
 For initial deployment in the staging environment without assets, run this command in your terminal:
+<br>
 `ansible-deploy --stage --install`
+<br>
 The above command will deploy without including the assets folder.
 <br>
+<br>
 For initial deployment in the staging environment with assets, run this command in your terminal:
+<br>
 `ansible-deploy --stage --install --with-assets`
+<br>
 The above command will deploy including the assets folder.
 
 ## Regular deployment
 
 For regular deployment, run in your terminal this command:
+<br>
 `ansible-deploy --stage --update `
 
 <br>
