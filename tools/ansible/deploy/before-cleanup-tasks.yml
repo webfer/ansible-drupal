@@ -1,4 +1,29 @@
 ---
+# Synchronize assets files to the remote server and show progress
+- name: Deploy assets files to the remote server use rsync
+  command: >
+    rsync -avz --delete --progress --chmod=ugo=rwX
+    -e "ssh -p {{ vault_host_port }}"
+    {{ansistrano_deploy_from}}/web/sites/default/files/
+    {{vault_ssh_user}}@{{ vault_host_ip }}:{{ ansistrano_shared_path }}/web/sites/default/files/
+  delegate_to: localhost
+  tags:
+    - deploy_assets
+
+- name: Ensure the correct permissions for settings.live.php
+  file:
+    path: '{{ ansistrano_shared_path }}/web/sites/default/settings.live.php'
+    mode: '0600'
+  tags:
+    - ideploy
+
+- name: Ensure the correct permissions for settings.php
+  file:
+    path: '{{ ansistrano_release_path.stdout }}/web/sites/default/settings.php'
+    mode: '0600'
+  tags:
+    - ideploy
+
 # Rebuild Drupal cache
 - name: Rebuild Drupal cache using Drush
   shell: |
