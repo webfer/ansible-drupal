@@ -61,6 +61,7 @@ function ansible-install() {
   return 0
 }
 
+
 function ansible-deploy() {
   # Function to print usage instructions
   function print_usage() {
@@ -122,6 +123,24 @@ function ansible-deploy() {
   # Print the selected options
   echo "Selected options: --$A_OPTION --$B_OPTION ${C_OPTION:+--$C_OPTION}"
 
+  # Set the PROJECT_ROOT variable
+  PROJECT_ROOT=$(pwd)
+
+  # Define the yellow color
+  YELLOW='\033[1;33m'
+  # Reset color
+  NC='\033[0m'  
+
+  # Check if provision_vault.yml exists and is encrypted
+  PROVISION_VAULT_FILE="${PROJECT_ROOT}/tools/ansible/vars/provision_vault.yml"
+  if [[ ! -f "$PROVISION_VAULT_FILE" ]]; then
+    echo "Error: The file $PROVISION_VAULT_FILE does not exist."
+    return 1
+  elif ! grep -q "\$ANSIBLE_VAULT;" "$PROVISION_VAULT_FILE"; then
+    echo "${YELLOW}🚨 Error: The file $PROVISION_VAULT_FILE is not encrypted. Make sure to encrypt the sensitive information.${NC}"
+    return 1
+  fi
+
   # Function to ask for confirmation
   ask_for_confirmation() {
     # Define the yellow color
@@ -135,7 +154,7 @@ function ansible-deploy() {
     # Read user input
     read CONFIRMATION
     
-    # Check if the user input is not "Y"
+    # Check if the user input is not "yes"
     if [[ "$CONFIRMATION" != "yes" ]]; then
       echo "Operation aborted."
       return 1
@@ -183,6 +202,7 @@ function ansible-deploy() {
 
   return 0
 }
+
 
 
 # Define the line to add
