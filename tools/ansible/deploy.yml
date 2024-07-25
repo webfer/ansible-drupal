@@ -25,6 +25,8 @@
       - "--exclude='README.md'"
       - "--exclude='bitbucket-pipelines.yml'"
       - "--exclude='.vscode'"
+      - "--exclude='web/sites/default/files'"
+      - "--exclude='web/themes/custom/{{ vault_theme_name }}/node_modules'"
       - "--exclude='web/sites/default/settings.ddev.php'"
       - "--exclude='web/sites/default/settings.local.php'"
 
@@ -39,7 +41,6 @@
 
     ansistrano_shared_paths:
       - 'web/sites/default/files'
-      - 'web/sites/default/private'
 
     ansistrano_shared_files:
       - 'web/sites/default/settings.live.php'

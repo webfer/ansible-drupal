@@ -18,6 +18,9 @@ drupal_settings:
               default:
                 driver: mysql
                 host: localhost
+                port: '{{ vault_database_port }}'
+                prefix: '{{ vault_database_prefix }}'
+                collation: '{{ vault_database_collation }}'
                 database: '{{ vault_database_name }}'
                 username: '{{ vault_database_user }}'
                 password: '{{ vault_database_password }}'
