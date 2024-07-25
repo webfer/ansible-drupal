@@ -130,13 +130,13 @@ function ansible-deploy() {
     NC='\033[0m'
 
     # Print the confirmation prompt in yellow
-    echo -e "${YELLOW}🚨 Are you sure you want to proceed with the FIRST-TIME INSTALLATION? Be careful! This action cannot be undone and will overwrite your database. Type 'Y' to continue:${NC}"
+    echo -e "${YELLOW}🚨 Are you sure you want to proceed with the FIRST-TIME installation? Be careful! This action cannot be undone and will overwrite your database. (yes/no):${NC}"
     
     # Read user input
     read CONFIRMATION
     
     # Check if the user input is not "Y"
-    if [[ "$CONFIRMATION" != "Y" ]]; then
+    if [[ "$CONFIRMATION" != "yes" ]]; then
       echo "Operation aborted."
       return 1
     fi
