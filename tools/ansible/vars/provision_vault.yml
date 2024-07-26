@@ -9,7 +9,8 @@
 # vault_database_collation: Replace xxxx with the database collation. For Drupal, this field can be "utf8mb4_general_ci" as default.
 # vault_server_client: Replace xxxx with the client in the remote server. Example: web1, web133...
 # vault_server_group: Replace xxxx with the server group in the remote server. Example: client1
-# vault_site_domain: Replace the xxxx value with your Drupal site name. The domain name must be enclosed in the quotes.
+# vault_site_domain: Replace the xxxx value with your Drupal site domain. The domain name must be enclosed in the quotes.
+# vault_site_multidomain: (Optional) Replace the xxxx value with the second domain name. The second domain name must be enclosed in the quotes.
 # vault_host_ip: Replace the xxxx value with The host IP address. Example: 46.183.119.153
 # vault_host_port: Replace the xxxx value with The host server port. Example: 61022
 # vault_ssh_user: Replace the xxxx value with the ssh user name.
@@ -35,6 +36,7 @@ vault_server_group: xxxx
 vault_keep_releases: 2
 
 vault_site_domain: 'xxxx'
+vault_site_multidomain: ''
 vault_host_ip: xxxx
 vault_host_port: xxxx
 vault_ssh_user: xxxx
@@ -47,5 +49,6 @@ vault_drupal_hash_salt: 'xxxx'
 vault_trusted_domains:
   - '^stage\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
   - '^.+\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
+  - '^{{vault_site_multidomain}}\.(dev|com|cat|es|org|nz|me|net)$'
   - '^{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
   - '^{{vault_site_domain}}\.(dev|com|cat|es|org|nz|me|net)$'
