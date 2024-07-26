@@ -169,9 +169,9 @@ function ansible-deploy() {
     if ask_for_confirmation; then
       if [[ "$C_OPTION" == "with-assets" ]]; then
         echo "Including with-assets in deployment..."
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config'
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up'
       else
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets'
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up'
       fi
     else
       return 1
