@@ -65,14 +65,14 @@ function ansible-install() {
 function ansible-deploy() {
   # Function to print usage instructions
   function print_usage() {
-    echo "Usage: ansible-deploy [--stage | --live] [--install | --update] [--with-assets]"
+    echo "Usage: ansible-deploy [--stage | --s | --live | --l] [--install | --update | --u] [--with-assets | --wa]"
     echo ""
     echo "Options:"
-    echo "  --stage         Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
-    echo "  --live          Deploys the site to a LIVE environment"
-    echo "  --install       Deploys the site for the first time, including a complete database import."
-    echo "  --update        Deploys the changes made since the last deployment, and updates the database with a configuration import."
-    echo "  --with-assets   (Optional) Deploys and synchronizes the with-assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
+    echo "  --stage, --s        Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
+    echo "  --live, --l         Deploys the site to a LIVE environment"
+    echo "  --install           Deploys the site for the first time, including a complete database import."
+    echo "  --update, --u       Deploys the changes made since the last deployment, and updates the database with a configuration import."
+    echo "  --with-assets, --wa (Optional) Deploys and synchronizes the assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
     echo ""
     echo "Both the environment and action options are required. The --with-assets option is optional."
   }
@@ -85,11 +85,11 @@ function ansible-deploy() {
   # Parse arguments
   while [[ "$#" -gt 0 ]]; do
     case $1 in
-      --live)
+      --live|--l)
         A_OPTION="live"
         shift
         ;;
-      --stage)
+      --stage|--s)
         A_OPTION="stage"
         shift
         ;;
@@ -97,11 +97,11 @@ function ansible-deploy() {
         B_OPTION="install"
         shift
         ;;
-      --update)
+      --update|--u)
         B_OPTION="update"
         shift
         ;;
-      --with-assets)
+      --with-assets|--wa)
         C_OPTION="with-assets"
         shift
         ;;        
@@ -202,6 +202,7 @@ function ansible-deploy() {
 
   return 0
 }
+
 
 
 
