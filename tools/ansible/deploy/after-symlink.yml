@@ -70,6 +70,7 @@
     owner: '{{ vault_server_client }}'
     group: '{{ vault_server_group }}'
     mode: '0644'
+  tags: auth
 
 #Insert authentication  lines to .htaccess
 - name: Insert authentication lines at the top of .htaccess
