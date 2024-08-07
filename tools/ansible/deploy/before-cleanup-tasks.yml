@@ -24,6 +24,22 @@
   tags:
     - ideploy
 
+# Checks for available translation updates in Drupal
+- name: Check for available translation updates using Drush
+  shell: |
+    {{ release_drush_path }} locale:check
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+
+# Updates translations in Drupal
+- name: Update translations using Drush
+  shell: |
+    {{ release_drush_path }} locale:update
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+
 # Rebuild Drupal cache
 - name: Rebuild Drupal cache using Drush
   shell: |
