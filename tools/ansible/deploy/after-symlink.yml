@@ -93,7 +93,7 @@
 # Rebuild Drupal cache
 - name: Rebuild Drupal cache using Drush
   shell: |
-    {{ release_drush_path }}
+    {{ release_drush_path }} cr
   args:
     chdir: '{{ release_drupal_path }}'
     executable: /bin/bash
