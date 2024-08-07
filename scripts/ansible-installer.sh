@@ -169,9 +169,9 @@ function ansible-deploy() {
     if ask_for_confirmation; then
       if [[ "$C_OPTION" == "with-assets" ]]; then
         echo "Including with-assets in deployment..."
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up'
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up, translations'
       else
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up'
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, translations'
       fi
     else
       return 1
@@ -184,16 +184,16 @@ function ansible-deploy() {
     if ask_for_confirmation; then
       if [[ "$C_OPTION" == "with-assets" ]]; then
         echo "Including with-assets in deployment..."
-        # TODO: ansible-playbook command for live-install with with-assets goes here
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up, auth, translations'
       else
-        # TODO: ansible-playbook command for live-install without with-assets goes here
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth, translations'
       fi
     else
       return 1
     fi
   elif [[ "$A_OPTION" == "live" && "$B_OPTION" == "update" ]]; then
     echo "Executing live-update path..."
-    # TODO: Add your live-update logic here
+    ansible-playbook tools/ansible/deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth'
   else
     echo "Unexpected combination of options."
     print_usage

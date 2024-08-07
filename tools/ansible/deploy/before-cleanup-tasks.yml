@@ -24,6 +24,37 @@
   tags:
     - ideploy
 
+# Check if the locale module is enabled using Drush
+- name: Check if locale module is enabled
+  shell: |
+    {{ release_drush_path }} pm:list --format=json
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+  register: drush_pm_list
+  changed_when: false
+  tags:
+    - translations
+
+# Parse the JSON output to check for locale module
+- name: Parse JSON output to check if locale module is enabled
+  set_fact:
+    is_locale_enabled: "{{ (drush_pm_list.stdout | from_json).locale.status == 'Enabled' }}"
+  changed_when: false
+  tags:
+    - translations
+
+# Enable the locale module in Drupal if not already enabled
+- name: Enable locale module using Drush
+  shell: |
+    {{ release_drush_path }} en locale -y
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+  when: not is_locale_enabled
+  tags:
+    - translations
+
 # Checks for available translation updates in Drupal
 - name: Check for available translation updates using Drush
   shell: |
@@ -31,6 +62,8 @@
   args:
     chdir: '{{ release_drupal_path }}'
     executable: /bin/bash
+  tags:
+    - translations
 
 # Updates translations in Drupal
 - name: Update translations using Drush
@@ -39,6 +72,8 @@
   args:
     chdir: '{{ release_drupal_path }}'
     executable: /bin/bash
+  tags:
+    - translations
 
 # Rebuild Drupal cache
 - name: Rebuild Drupal cache using Drush
