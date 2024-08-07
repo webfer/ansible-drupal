@@ -1,6 +1,6 @@
 ---
 # Synchronize assets files to the remote server and show progress
-- name: Deploy assets files to the remote server use rsync
+- name: Deploy assets files to the remote server using rsync
   command: >
     rsync -avz --delete --progress --chmod=ugo=rwX
     -e "ssh -p {{ vault_host_port }}"
