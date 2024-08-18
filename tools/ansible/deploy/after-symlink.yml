@@ -91,6 +91,27 @@
     chdir: '{{ ansistrano_release_path.stdout }}/web'
   tags: auth
 
+# Remove .htpasswd file
+- name: Remove .htpasswd file
+  file:
+    path: '{{ ansistrano_release_path.stdout }}/web/.htpasswd'
+    state: absent
+  tags: auth_cleanup
+
+# Remove authentication lines from .htaccess
+- name: Remove authentication lines from .htaccess
+  shell: |
+    if [ -f {{ ansistrano_release_path.stdout }}/web/.htaccess ]; then
+      sed -i '/^AuthName "Usuari autoritzat"/,+3d' {{ ansistrano_release_path.stdout }}/web/.htaccess
+    else
+      echo "Error: .htaccess file not found." >&2
+      exit 1
+    fi
+  args:
+    executable: /bin/bash
+    chdir: '{{ ansistrano_release_path.stdout }}/web'
+  tags: auth_cleanup
+
 # Rebuild Drupal cache
 - name: Rebuild Drupal cache using Drush
   shell: |
