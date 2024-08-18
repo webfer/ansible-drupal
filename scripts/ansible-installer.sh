@@ -65,22 +65,24 @@ function ansible-install() {
 function ansible-deploy() {
   # Function to print usage instructions
   function print_usage() {
-    echo "Usage: ansible-deploy [--stage | -s | --live | -l] [--install | -i | --update | -u] [--with-assets | -wa]"
+    echo "Usage: ansible-deploy [--stage | -s | --live | -l] [--install | -i | --update | -u] [--cleanup-auth | -ca] [--with-assets | -wa]"
     echo ""
     echo "Options:"
     echo "  --stage, -s         Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
     echo "  --live, -l          Deploys the site to a LIVE environment"
     echo "  --install, -i       Deploys the site for the first time, including a complete database import."
     echo "  --update, -u        Deploys the changes made since the last deployment, and updates the database with a configuration import."
+    echo "  --cleanup-auth, -ca Removes the authentication lines from .htaccess and deletes the .htpasswd file."
     echo "  --with-assets, -wa  (Optional) Deploys and synchronizes the assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
     echo ""
-    echo "Both the environment and action options are required. The --with-assets option is optional."
+    echo "Both the environment and action options are required unless using --cleanup-auth. The --with-assets option is optional."
   }
 
   # Default values for options
   A_OPTION=""
   B_OPTION=""
   C_OPTION=""
+  D_OPTION=""
 
   # Parse arguments
   while [[ "$#" -gt 0 ]]; do
@@ -104,7 +106,11 @@ function ansible-deploy() {
       --with-assets|-wa)
         C_OPTION="with-assets"
         shift
-        ;;        
+        ;;
+      --cleanup-auth|-ca)
+        D_OPTION="cleanup-auth"
+        shift
+        ;;
       *)
         echo "Error: Invalid option $1"
         print_usage
@@ -113,15 +119,15 @@ function ansible-deploy() {
     esac
   done
 
-  # Check that the environment and action options are provided
-  if [[ -z "$A_OPTION" || -z "$B_OPTION" ]]; then
-    echo "Error: Both the environment and action options are required."
+  # Check that the environment and action options are provided unless using --cleanup-auth
+  if [[ -z "$A_OPTION" || -z "$B_OPTION" ]] && [[ -z "$D_OPTION" ]]; then
+    echo "Error: Both the environment and action options are required unless using --cleanup-auth."
     print_usage
     return 1
   fi
 
   # Print the selected options
-  echo "Selected options: --$A_OPTION --$B_OPTION ${C_OPTION:+--$C_OPTION}"
+  echo "Selected options: --$A_OPTION --$B_OPTION ${C_OPTION:+--$C_OPTION} ${D_OPTION:+--$D_OPTION}"
 
   # Set the PROJECT_ROOT variable
   PROJECT_ROOT=$(pwd)
@@ -129,7 +135,7 @@ function ansible-deploy() {
   # Define the yellow color
   YELLOW='\033[1;33m'
   # Reset color
-  NC='\033[0m'  
+  NC='\033[0m'
 
   # Check if provision_vault.yml exists and is encrypted
   PROVISION_VAULT_FILE="${PROJECT_ROOT}/tools/ansible/vars/provision_vault.yml"
@@ -143,65 +149,66 @@ function ansible-deploy() {
 
   # Function to ask for confirmation
   ask_for_confirmation() {
-    # Define the yellow color
-    YELLOW='\033[1;33m'
-    # Reset color
-    NC='\033[0m'
-
-    # Print the confirmation prompt in yellow
     echo -e "${YELLOW}🚨 Are you sure you want to proceed with the FIRST-TIME installation? Be careful! This action cannot be undone and will overwrite your database. (yes/no):${NC}"
-    
-    # Read user input
     read CONFIRMATION
-    
-    # Check if the user input is not "yes"
     if [[ "$CONFIRMATION" != "yes" ]]; then
       echo "Operation aborted."
       return 1
     fi
-    
     return 0
   }
 
-  # Conditional logic based on the options
-  if [[ "$A_OPTION" == "stage" && "$B_OPTION" == "install" ]]; then
-    echo "Executing stage-install path..."
-    if ask_for_confirmation; then
-      if [[ "$C_OPTION" == "with-assets" ]]; then
-        echo "Including with-assets in deployment..."
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up, translations'
-      else
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, translations'
-      fi
-    else
-      return 1
-    fi
-  elif [[ "$A_OPTION" == "stage" && "$B_OPTION" == "update" ]]; then
-    echo "Executing stage-update path..."
-    ansible-playbook tools/ansible/deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets'
-  elif [[ "$A_OPTION" == "live" && "$B_OPTION" == "install" ]]; then
-    echo "Executing live-install path..."
-    if ask_for_confirmation; then
-      if [[ "$C_OPTION" == "with-assets" ]]; then
-        echo "Including with-assets in deployment..."
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up, auth, translations'
-      else
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth, translations'
-      fi
-    else
-      return 1
-    fi
-  elif [[ "$A_OPTION" == "live" && "$B_OPTION" == "update" ]]; then
-    echo "Executing live-update path..."
-    ansible-playbook tools/ansible/deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth'
+  # Determine the action based on the options
+  if [[ "$D_OPTION" == "cleanup-auth" ]]; then
+    echo "Executing cleanup-auth path..."
+    ansible-playbook tools/ansible/deploy.yml --tags 'auth_cleanup'
   else
-    echo "Unexpected combination of options."
-    print_usage
-    return 1
+    case "${A_OPTION}-${B_OPTION}" in
+      stage-install)
+        echo "Executing stage-install path..."
+        if ask_for_confirmation; then
+          if [[ "$C_OPTION" == "with-assets" ]]; then
+            echo "Including with-assets in deployment..."
+            ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up, translations, auth_cleanup'
+          else
+            ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, translations, auth_cleanup'
+          fi
+        else
+          return 1
+        fi
+        ;;
+      stage-update)
+        echo "Executing stage-update path..."
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth_cleanup'
+        ;;
+      live-install)
+        echo "Executing live-install path..."
+        if ask_for_confirmation; then
+          if [[ "$C_OPTION" == "with-assets" ]]; then
+            echo "Including with-assets in deployment..."
+            ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up, auth, translations'
+          else
+            ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth, translations'
+          fi
+        else
+          return 1
+        fi
+        ;;
+      live-update)
+        echo "Executing live-update path..."
+        ansible-playbook tools/ansible/deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth'
+        ;;
+      *)
+        echo "Unexpected combination of options."
+        print_usage
+        return 1
+        ;;
+    esac
   fi
 
   return 0
 }
+
 
 
 
