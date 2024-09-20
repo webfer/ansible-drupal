@@ -1,0 +1,96 @@
+# before-symlink-tasks
+
+# DEBUG
+- name: Print Ansistrano - Before-symlink-tasks -
+  debug:
+    msg: 'Ansistrano print - Before-symlink-tasks -'
+
+# Check if the locale module is enabled using Drush
+- name: Check if locale module is enabled
+  shell: |
+    {{ release_drush_path }} pm:list --format=json
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+  register: drush_pm_list
+  changed_when: false
+  tags:
+    - translations
+
+# Parse the JSON output to check for locale module
+- name: Parse JSON output to check if locale module is enabled
+  set_fact:
+    is_locale_enabled: "{{ (drush_pm_list.stdout | from_json).locale.status == 'Enabled' }}"
+  changed_when: false
+  tags:
+    - translations
+
+# Enable the locale module in Drupal if not already enabled
+- name: Enable locale module using Drush
+  shell: |
+    {{ release_drush_path }} en locale -y
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+  when: not is_locale_enabled
+  tags:
+    - translations
+
+# Checks for available translation updates in Drupal
+- name: Check for available translation updates using Drush
+  shell: |
+    {{ release_drush_path }} locale:check
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+  tags:
+    - translations
+
+# Updates translations in Drupal
+- name: Update translations using Drush
+  shell: |
+    {{ release_drush_path }} locale:update
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+  tags:
+    - translations
+
+# Rebuild Drupal cache
+- name: Rebuild Drupal cache using Drush
+  shell: |
+    {{ release_drush_path }} cr
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+  tags:
+    - drupal
+
+# Import configuration
+- name: Import configuration
+  command: '{{ release_drush_path }} config-import --yes --verbose'
+  args:
+    chdir: '{{ ansistrano_release_path.stdout }}'
+  register: config_import_result
+  failed_when: "'error' in config_import_result.stdout or config_import_result.rc != 0"
+  tags:
+    - import_config
+
+# Run database updates
+- name: Run database updates
+  command: '{{ release_drush_path }} updatedb --yes --verbose'
+  args:
+    chdir: '{{ ansistrano_release_path.stdout }}'
+  # when: vault_mode == 'update'
+  tags:
+    - updatedb
+
+# Rebuild Drupal cache
+- name: Rebuild Drupal cache using Drush
+  shell: |
+    {{ release_drush_path }} cr
+  args:
+    chdir: '{{ release_drupal_path }}'
+    executable: /bin/bash
+  tags:
+    - drupal

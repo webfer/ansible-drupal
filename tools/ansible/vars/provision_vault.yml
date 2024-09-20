@@ -9,21 +9,12 @@
 # vault_database_collation: Replace xxxx with the database collation. For Drupal, this field can be "utf8mb4_general_ci" as default.
 # vault_server_client: Replace xxxx with the client in the remote server. Example: web1, web133...
 # vault_server_group: Replace xxxx with the server group in the remote server. Example: client1
-# vault_site_domain: Replace the xxxx value with your Drupal site domain. The domain name must be enclosed in the quotes.
-# vault_site_multidomain: (Optional) Replace the xxxx value with the second domain name. The second domain name must be enclosed in the quotes.
 # vault_host_ip: Replace the xxxx value with The host IP address. Example: 46.183.119.153
 # vault_host_port: Replace the xxxx value with The host server port. Example: 61022
 # vault_ssh_user: Replace the xxxx value with the ssh user name.
 # vault_theme_name: Custom theme name - https://www.drupal.org/project/drupy
 # vault_company_name: It must be tothomweb by default
 # vault_htpasswd_value: Replace the xxxx with your Drupal htpassd password.
-# vault_drupal_hash_salt: "Drupal hash salt" is the token Drupal identifier. You can find this hash in the settings.ddev.php file of your project.
-# vault_drupal_uuid: UUID ensures unique identification of entities across instances and sites, aiding in content sync, migrations, and distribution. To get the UUI, you can run this command: drush config:get system.site uuid
-# vault_trusted_domains: IMPORTANT! Take care about the config: This config is key sensitive, please keep the pattern like the example:
-#   '^example\.com$',
-#   '^.+\.example\.com$',
-#   '^example\.org$',
-#   '^.+\.example\.org$',
 
 vault_database_name: xxxx
 vault_database_user: xxxx
@@ -35,21 +26,9 @@ vault_server_client: xxxx
 vault_server_group: xxxx
 vault_keep_releases: 2
 
-vault_site_domain: 'xxxx'
-vault_site_multidomain: ''
-vault_host_ip: xxxx
-vault_host_port: xxxx
+vault_host_ip: 46.183.119.153
+vault_host_port: 61022
 vault_ssh_user: xxxx
 vault_theme_name: xxxx
 vault_company_name: xxxx
 vault_htpasswd_value: 'xxxx'
-vault_drupal_hash_salt: 'xxxx'
-#vault_drupal_uuid: ''
-
-vault_trusted_domains:
-  - '^{{vault_site_multidomain}}\.{{vault_company_name}}\.(dev|com|cat|es|org|nz|me|net)$'
-  - '^stage\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
-  - '^.+\.{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
-  - '^{{vault_site_multidomain}}\.(dev|com|cat|es|org|nz|me|net)$'
-  - '^{{vault_site_domain}}\.{{vault_company_name}}\.(dev|com)$'
-  - '^{{vault_site_domain}}\.(dev|com|cat|es|org|nz|me|net)$'

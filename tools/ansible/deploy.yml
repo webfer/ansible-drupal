@@ -35,8 +35,9 @@
     ansistrano_keep_releases: '{{ vault_keep_releases }}'
 
     # Hooks
+    ansistrano_before_symlink_shared_tasks_file: '{{ playbook_dir }}/deploy/before-symlink-shared-tasks.yml'
     ansistrano_after_update_code_tasks_file: '{{ playbook_dir }}/deploy/after-update-code-tasks.yml'
-    ansistrano_after_symlink_tasks_file: '{{ playbook_dir }}/deploy/after-symlink.yml'
+    ansistrano_before_symlink_tasks_file: '{{ playbook_dir }}/deploy/before-symlink-tasks.yml'
     ansistrano_before_cleanup_tasks_file: '{{ playbook_dir }}/deploy/before-cleanup-tasks.yml'
 
     ansistrano_shared_paths:

@@ -65,15 +65,15 @@ function ansible-install() {
 function ansible-deploy() {
   # Function to print usage instructions
   function print_usage() {
-    echo "Usage: ansible-deploy [--stage | -s | --live | -l] [--install | -i | --update | -u] [--cleanup-auth | -ca] [--with-assets | -wa]"
+    echo "Usage: ansible-deploy [--stage | -s | --live | -l] [--install | -i | --update | -u] [--cleanup-auth | -c] [--with-assets | -a]"
     echo ""
     echo "Options:"
     echo "  --stage, -s         Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
     echo "  --live, -l          Deploys the site to a LIVE environment"
     echo "  --install, -i       Deploys the site for the first time, including a complete database import."
     echo "  --update, -u        Deploys the changes made since the last deployment, and updates the database with a configuration import."
-    echo "  --cleanup-auth, -ca Removes the authentication lines from .htaccess and deletes the .htpasswd file."
-    echo "  --with-assets, -wa  (Optional) Deploys and synchronizes the assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
+    echo "  --cleanup-auth, -c Removes the authentication lines from .htaccess and deletes the .htpasswd file."
+    echo "  --with-assets, -a  (Optional) Deploys and synchronizes the assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
     echo ""
     echo "Both the environment and action options are required unless using --cleanup-auth. The --with-assets option is optional."
   }
@@ -103,11 +103,11 @@ function ansible-deploy() {
         B_OPTION="update"
         shift
         ;;
-      --with-assets|-wa)
+      --with-assets|-a)
         C_OPTION="with-assets"
         shift
         ;;
-      --cleanup-auth|-ca)
+      --cleanup-auth|-c)
         D_OPTION="cleanup-auth"
         shift
         ;;

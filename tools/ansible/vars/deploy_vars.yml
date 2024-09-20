@@ -25,13 +25,7 @@ drupal_settings:
                 username: '{{ vault_database_user }}'
                 password: '{{ vault_database_password }}'
                 isolevel: 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'
-          hash_salt: '{{ vault_drupal_hash_salt }}'
-          config_directories:
-            sync: ../config/sync
-          trusted_hosts: '{{ vault_trusted_domains }}'
-
           extra_parameters: |
-            $settings['config_sync_directory'] = '../config/sync';
             $settings['deployment_identifier'] = '{{ ansistrano_release_version }}';
           # extra_parameters: |
           #   $config['system.site']['uuid'] = {{ vault_drupal_uuid }};
