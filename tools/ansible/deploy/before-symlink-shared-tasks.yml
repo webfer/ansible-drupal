@@ -1,4 +1,6 @@
 ---
+# before-symlink-shared-tasks
+
 # Set permissions
 - name: Set directory permissions for release_drupal_path
   file:
@@ -34,6 +36,16 @@
     group: '{{ vault_server_group }}'
     recurse: true
 
+- name: Set correct permissions for config sync directory
+  file:
+    path: '{{ ansistrano_release_path.stdout }}/config/sync'
+    owner: '{{ vault_server_client }}'
+    group: '{{ vault_server_group }}'
+    mode: '0755'
+    recurse: true
+  tags:
+    - set_permissions
+
 # Unarchive file sql from GZIP
 - name: Extract SQL file from Gzip archive using Drush Shell
   ansible.builtin.shell: 'gunzip -c {{ ansistrano_release_path.stdout }}/sql/db.sql.gz > {{ ansistrano_release_path.stdout }}/sql/db.sql'
@@ -41,7 +53,11 @@
   tags:
     - unarchive_db
 
-# Import database from local machine to remote server
+- name: Ensure PyMySQL is installed on the target
+  ansible.builtin.pip:
+    name: PyMySQL
+    state: present
+
 - name: Import MySQL Database
   ansible.builtin.mysql_db:
     name: '{{ vault_database_name }}'
@@ -49,18 +65,8 @@
     login_password: '{{ vault_database_password }}'
     state: import
     target: '{{ ansistrano_release_path.stdout }}/sql/db.sql'
-  # when: vault_mode == 'install'
   tags:
     - db_update
-
-# Import configuration
-- name: Import configuration
-  command: '{{ release_drush_path }} config-import --yes --verbose'
-  args:
-    chdir: '{{ ansistrano_release_path.stdout }}'
-  # when: vault_mode == 'update'
-  tags:
-    - import_config
 
 # Add authentication to .htaccess and create .htpasswd
 - name: Create .htpasswd file
@@ -112,12 +118,27 @@
     chdir: '{{ ansistrano_release_path.stdout }}/web'
   tags: auth_cleanup
 
-# Rebuild Drupal cache
-- name: Rebuild Drupal cache using Drush
-  shell: |
-    {{ release_drush_path }} cr
-  args:
-    chdir: '{{ release_drupal_path }}'
-    executable: /bin/bash
+# Synchronize assets files to the remote server and show progress
+- name: Deploy assets files to the remote server using rsync
+  command: >
+    rsync -avz --delete --progress --chmod=ugo=rwX
+    -e "ssh -p {{ vault_host_port }}"
+    {{ansistrano_deploy_from}}/web/sites/default/files/
+    {{vault_ssh_user}}@{{ vault_host_ip }}:{{ ansistrano_shared_path }}/web/sites/default/files/
+  delegate_to: localhost
   tags:
-    - drupal
+    - deploy_assets
+
+- name: Ensure the correct permissions for settings.live.php
+  file:
+    path: '{{ ansistrano_shared_path }}/web/sites/default/settings.live.php'
+    mode: '0600'
+  tags:
+    - ideploy
+
+- name: Ensure the correct permissions for settings.php
+  file:
+    path: '{{ ansistrano_release_path.stdout }}/web/sites/default/settings.php'
+    mode: '0600'
+  tags:
+    - ideploy
