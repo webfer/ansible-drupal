@@ -1,0 +1,39 @@
+---
+# Rebuild Drupal cache
+- name: Rebuild Drupal cache using Drush
+  shell: |
+    {{ release_drush_path }} cr
+  args:
+    chdir: "{{ release_drupal_path }}"
+    executable: /bin/bash
+  tags:
+    - drupal
+
+# Import configuration
+- name: Import configuration
+  command: "{{ release_drush_path }} config-import --yes --verbose"
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+  register: config_import_result
+  failed_when: "'error' in config_import_result.stdout or config_import_result.rc != 0"
+  tags:
+    - import_config
+
+# Run database updates
+- name: Run database updates
+  command: "{{ release_drush_path }} updatedb --yes --verbose"
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+  # when: vault_mode == 'update'
+  tags:
+    - updatedb
+
+# Rebuild Drupal cache
+- name: Rebuild Drupal cache using Drush
+  shell: |
+    {{ release_drush_path }} cr
+  args:
+    chdir: "{{ release_drupal_path }}"
+    executable: /bin/bash
+  tags:
+    - drupal

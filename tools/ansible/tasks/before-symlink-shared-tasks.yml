@@ -4,51 +4,51 @@
 # Set permissions
 - name: Set directory permissions for release_drupal_path
   file:
-    path: '{{ ansistrano_current_dir }}'
-    mode: '0755'
+    path: "{{ ansistrano_current_dir }}"
+    mode: "0755"
     state: directory
     recurse: yes
 
 - name: Set directory permissions for ansistrano_shared_path
   file:
-    path: '{{ ansistrano_release_path.stdout }}/web/sites/default/files'
-    mode: '0755'
+    path: "{{ ansistrano_release_path.stdout }}/web/sites/default/files"
+    mode: "0755"
     state: directory
-    owner: '{{ vault_server_client }}'
-    group: '{{ vault_server_group }}'
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
     recurse: true
 
 - name: Ensure properly permissions to vendor's directory
   file:
-    path: '{{ ansistrano_release_path.stdout }}/vendor'
-    mode: '0755'
+    path: "{{ ansistrano_release_path.stdout }}/vendor"
+    mode: "0755"
     state: directory
-    owner: '{{ vault_server_client }}'
-    group: '{{ vault_server_group }}'
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
     recurse: true
 
 - name: Ensure properly permissions to Drupal's root /web directory
   file:
-    path: '{{ ansistrano_release_path.stdout }}/web'
-    mode: '0755'
+    path: "{{ ansistrano_release_path.stdout }}/web"
+    mode: "0755"
     state: directory
-    owner: '{{ vault_server_client }}'
-    group: '{{ vault_server_group }}'
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
     recurse: true
 
 - name: Set correct permissions for config sync directory
   file:
-    path: '{{ ansistrano_release_path.stdout }}/config/sync'
-    owner: '{{ vault_server_client }}'
-    group: '{{ vault_server_group }}'
-    mode: '0755'
+    path: "{{ ansistrano_release_path.stdout }}/config/sync"
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
+    mode: "0755"
     recurse: true
   tags:
     - set_permissions
 
 # Unarchive file sql from GZIP
 - name: Extract SQL file from Gzip archive using Drush Shell
-  ansible.builtin.shell: 'gunzip -c {{ ansistrano_release_path.stdout }}/sql/db.sql.gz > {{ ansistrano_release_path.stdout }}/sql/db.sql'
+  ansible.builtin.shell: "gunzip -c {{ ansistrano_release_path.stdout }}/sql/db.sql.gz > {{ ansistrano_release_path.stdout }}/sql/db.sql"
   # when: vault_mode == 'install'
   tags:
     - unarchive_db
@@ -57,25 +57,27 @@
   ansible.builtin.pip:
     name: PyMySQL
     state: present
+  tags:
+    - db_update
 
 - name: Import MySQL Database
   ansible.builtin.mysql_db:
-    name: '{{ vault_database_name }}'
-    login_user: '{{ vault_database_user }}'
-    login_password: '{{ vault_database_password }}'
+    name: "{{ vault_database_name }}"
+    login_user: "{{ vault_database_user }}"
+    login_password: "{{ vault_database_password }}"
     state: import
-    target: '{{ ansistrano_release_path.stdout }}/sql/db.sql'
+    target: "{{ ansistrano_release_path.stdout }}/sql/db.sql"
   tags:
     - db_update
 
 # Add authentication to .htaccess and create .htpasswd
 - name: Create .htpasswd file
   copy:
-    dest: '{{ ansistrano_release_path.stdout }}/web/.htpasswd'
-    content: '{{ vault_company_name }}:{{ vault_htpasswd_value }}'
-    owner: '{{ vault_server_client }}'
-    group: '{{ vault_server_group }}'
-    mode: '0644'
+    dest: "{{ ansistrano_release_path.stdout }}/web/.htpasswd"
+    content: "{{ vault_company_name }}:{{ vault_htpasswd_value }}"
+    owner: "{{ vault_server_client }}"
+    group: "{{ vault_server_group }}"
+    mode: "0644"
   tags: auth
 
 #Insert authentication  lines to .htaccess
@@ -94,13 +96,13 @@
     fi
   args:
     executable: /bin/bash
-    chdir: '{{ ansistrano_release_path.stdout }}/web'
+    chdir: "{{ ansistrano_release_path.stdout }}/web"
   tags: auth
 
 # Remove .htpasswd file
 - name: Remove .htpasswd file
   file:
-    path: '{{ ansistrano_release_path.stdout }}/web/.htpasswd'
+    path: "{{ ansistrano_release_path.stdout }}/web/.htpasswd"
     state: absent
   tags: auth_cleanup
 
@@ -115,7 +117,7 @@
     fi
   args:
     executable: /bin/bash
-    chdir: '{{ ansistrano_release_path.stdout }}/web'
+    chdir: "{{ ansistrano_release_path.stdout }}/web"
   tags: auth_cleanup
 
 # Synchronize assets files to the remote server and show progress
@@ -124,21 +126,21 @@
     rsync -avz --delete --progress --chmod=ugo=rwX
     -e "ssh -p {{ vault_host_port }}"
     {{ansistrano_deploy_from}}/web/sites/default/files/
-    {{vault_ssh_user}}@{{ vault_host_ip }}:{{ ansistrano_shared_path }}/web/sites/default/files/
+    {{ansible_user}}@{{ vault_host_ip }}:{{ ansistrano_shared_path }}/web/sites/default/files/
   delegate_to: localhost
   tags:
     - deploy_assets
 
 - name: Ensure the correct permissions for settings.live.php
   file:
-    path: '{{ ansistrano_shared_path }}/web/sites/default/settings.live.php'
-    mode: '0600'
+    path: "{{ ansistrano_shared_path }}/web/sites/default/settings.live.php"
+    mode: "0600"
   tags:
     - ideploy
 
 - name: Ensure the correct permissions for settings.php
   file:
-    path: '{{ ansistrano_release_path.stdout }}/web/sites/default/settings.php'
-    mode: '0600'
+    path: "{{ ansistrano_release_path.stdout }}/web/sites/default/settings.php"
+    mode: "0600"
   tags:
     - ideploy
