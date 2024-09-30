@@ -1,5 +1,0 @@
----
-- src: ansistrano.deploy
-  version: 3.14.0
-- src: opdavies.drupal_settings_files
-  version: 0.1.0

@@ -1,0 +1,34 @@
+---
+vault_database_name: xxxx
+vault_database_user: xxxx
+vault_database_password: 'xxxx'
+vault_database_port: xxxx
+vault_database_prefix: ''
+vault_database_collation: 'xxxx'
+vault_server_client: xxxx
+vault_server_group: xxxx
+vault_keep_releases: xxxx
+
+ansible_user: xxxx
+ansible_host: xxxx
+ansible_port: xxxx
+vault_theme_name: xxxx
+vault_company_name: xxxx
+vault_htpasswd_value: 'xxxx'
+# Allowed Variables
+
+# vault_database_name: Database name.
+# vault_database_user: Database user name.
+# vault_database_password: Database password. Important! The pass should be enclosed in the quotes. Something like "d$cK&5;z8"
+# vault_database_port: Database port. Usually shoul be 3306.
+# vault_database_prefix: Database prefix. If you dosen't use prefix for you database, you can leave this fiel empty.
+# vault_database_collation: Database collation. For Drupal, this field can be "utf8mb4_general_ci" as default.
+# vault_server_client: Server client in the remote server. Example: web1, web133...
+# vault_server_group: Server group in the remote server. Example: client1
+# vault_keep_releases: Number of releases that you want to use. Example: 2
+# ansible_user: SSH user name.
+# ansible_host: IP address or the server domain. Example: xxxx or xxxx
+# ansible_port: Server port. Example: 61022
+# vault_theme_name: Custom theme name - https://www.drupal.org/project/drupy
+# vault_company_name: It must be tothomweb by default
+# vault_htpasswd_value: Drupal htpassd password.

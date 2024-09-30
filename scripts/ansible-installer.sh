@@ -68,12 +68,12 @@ function ansible-deploy() {
     echo "Usage: ansible-deploy [--stage | -s | --live | -l] [--install | -i | --update | -u] [--cleanup-auth | -c] [--with-assets | -a]"
     echo ""
     echo "Options:"
-    echo "  --stage, -s         Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
-    echo "  --live, -l          Deploys the site to a LIVE environment"
-    echo "  --install, -i       Deploys the site for the first time, including a complete database import."
-    echo "  --update, -u        Deploys the changes made since the last deployment, and updates the database with a configuration import."
-    echo "  --cleanup-auth, -c Removes the authentication lines from .htaccess and deletes the .htpasswd file."
-    echo "  --with-assets, -a  (Optional) Deploys and synchronizes the assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
+    echo "  --stage,          -s      Deploys the site to a STAGE environment using a basic Auth, also, using an .htpasswd file."
+    echo "  --live,           -l      Deploys the site to a LIVE environment"
+    echo "  --install,        -i      Deploys the site for the first time, including a complete database import."
+    echo "  --update,         -u      Deploys the changes made since the last deployment, and updates the database with a configuration import."
+    echo "  --cleanup-auth,   -c      Removes the authentication lines from .htaccess and deletes the .htpasswd file."
+    echo "  --with-assets,    -a      (Optional) Deploys and synchronizes the assets from the local machine to the remote server. This option ensures that files deleted locally are also deleted on the remote server."
     echo ""
     echo "Both the environment and action options are required unless using --cleanup-auth. The --with-assets option is optional."
   }
@@ -137,8 +137,14 @@ function ansible-deploy() {
   # Reset color
   NC='\033[0m'
 
-  # Check if provision_vault.yml exists and is encrypted
-  PROVISION_VAULT_FILE="${PROJECT_ROOT}/tools/ansible/vars/provision_vault.yml"
+  # Set the PROVISION_VAULT_FILE based on the environment
+  if [[ "$A_OPTION" == "stage" ]]; then
+    PROVISION_VAULT_FILE="${PROJECT_ROOT}/tools/ansible/inventories/stage/group_vars/server.yml"
+  elif [[ "$A_OPTION" == "live" ]]; then
+    PROVISION_VAULT_FILE="${PROJECT_ROOT}/tools/ansible/inventories/production/group_vars/server.yml"
+  fi
+
+  # Check if the correct provision_vault file exists and is encrypted
   if [[ ! -f "$PROVISION_VAULT_FILE" ]]; then
     echo "Error: The file $PROVISION_VAULT_FILE does not exist."
     return 1
@@ -161,7 +167,7 @@ function ansible-deploy() {
   # Determine the action based on the options
   if [[ "$D_OPTION" == "cleanup-auth" ]]; then
     echo "Executing cleanup-auth path..."
-    ansible-playbook tools/ansible/deploy.yml --tags 'auth_cleanup'
+    ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --tags 'auth_cleanup'
   else
     case "${A_OPTION}-${B_OPTION}" in
       stage-install)
@@ -169,9 +175,9 @@ function ansible-deploy() {
         if ask_for_confirmation; then
           if [[ "$C_OPTION" == "with-assets" ]]; then
             echo "Including with-assets in deployment..."
-            ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up, translations, auth_cleanup'
+            ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'import_config, clean_up, auth_cleanup'
           else
-            ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, translations, auth_cleanup'
+            ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth_cleanup'
           fi
         else
           return 1
@@ -179,16 +185,16 @@ function ansible-deploy() {
         ;;
       stage-update)
         echo "Executing stage-update path..."
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth_cleanup'
+        ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth_cleanup'
         ;;
       live-install)
         echo "Executing live-install path..."
         if ask_for_confirmation; then
           if [[ "$C_OPTION" == "with-assets" ]]; then
             echo "Including with-assets in deployment..."
-            ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, clean_up, auth, translations'
+            ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'import_config, clean_up, auth'
           else
-            ansible-playbook tools/ansible/deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth, translations'
+            ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth'
           fi
         else
           return 1
@@ -196,7 +202,7 @@ function ansible-deploy() {
         ;;
       live-update)
         echo "Executing live-update path..."
-        ansible-playbook tools/ansible/deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth'
+        ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth'
         ;;
       *)
         echo "Unexpected combination of options."
@@ -208,9 +214,6 @@ function ansible-deploy() {
 
   return 0
 }
-
-
-
 
 
 # Define the line to add
