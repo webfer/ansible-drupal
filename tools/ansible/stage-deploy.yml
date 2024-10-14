@@ -43,4 +43,4 @@
       - 'web/sites/default/files'
 
     ansistrano_shared_files:
-      - 'web/sites/default/settings.live.php'
+      - 'web/sites/default/settings.stage.php'
