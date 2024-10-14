@@ -175,9 +175,9 @@ function ansible-deploy() {
         if ask_for_confirmation; then
           if [[ "$C_OPTION" == "with-assets" ]]; then
             echo "Including with-assets in deployment..."
-            ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'import_config, clean_up, auth_cleanup'
+            ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'import_config, clean_up, auth_cleanup, s_live'
           else
-            ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth_cleanup'
+            ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth_cleanup, s_live'
           fi
         else
           return 1
@@ -185,16 +185,16 @@ function ansible-deploy() {
         ;;
       stage-update)
         echo "Executing stage-update path..."
-        ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth_cleanup'
+        ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth_cleanup, s_live'
         ;;
       live-install)
         echo "Executing live-install path..."
         if ask_for_confirmation; then
           if [[ "$C_OPTION" == "with-assets" ]]; then
             echo "Including with-assets in deployment..."
-            ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'import_config, clean_up, auth'
+            ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'import_config, clean_up, auth, s_stage'
           else
-            ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth'
+            ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth, s_stage'
           fi
         else
           return 1
@@ -202,7 +202,7 @@ function ansible-deploy() {
         ;;
       live-update)
         echo "Executing live-update path..."
-        ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth'
+        ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth, s_stage'
         ;;
       *)
         echo "Unexpected combination of options."
