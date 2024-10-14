@@ -5,12 +5,11 @@
     - ansistrano.deploy
 
   vars_files:
-    - inventories/stage/group_vars/provision_vault.yml
-    - vars/vars.yml
-    - vars/deploy_vars.yml
+    - inventories/stage/group_vars/deploy_vars.yml
+    - inventories/stage/group_vars/vars.yml
 
   vars:
-    ansistrano_deploy_via: "rsync"
+    ansistrano_deploy_via: 'rsync'
     ansistrano_rsync_extra_params:
       - "--exclude='.ddev/'"
       - "--exclude='.DS_Store'"
@@ -30,18 +29,18 @@
       - "--exclude='web/sites/default/settings.ddev.php'"
       - "--exclude='web/sites/default/settings.local.php'"
 
-    ansistrano_deploy_from: "{{ playbook_dir }}/../../"
-    ansistrano_deploy_to: "{{ project_deploy_path }}"
-    ansistrano_keep_releases: "{{ vault_keep_releases }}"
+    ansistrano_deploy_from: '{{ playbook_dir }}/../../'
+    ansistrano_deploy_to: '{{ project_deploy_path }}'
+    ansistrano_keep_releases: '{{ vault_keep_releases }}'
 
     # Hooks
-    ansistrano_before_symlink_shared_tasks_file: "{{ playbook_dir }}/tasks/before-symlink-shared-tasks.yml"
-    ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/tasks/after-update-code-tasks.yml"
-    ansistrano_before_symlink_tasks_file: "{{ playbook_dir }}/tasks/before-symlink-tasks.yml"
-    ansistrano_before_cleanup_tasks_file: "{{ playbook_dir }}/tasks/before-cleanup-tasks.yml"
+    ansistrano_before_symlink_shared_tasks_file: '{{ playbook_dir }}/tasks/before-symlink-shared-tasks.yml'
+    ansistrano_after_update_code_tasks_file: '{{ playbook_dir }}/tasks/after-update-code-tasks.yml'
+    ansistrano_before_symlink_tasks_file: '{{ playbook_dir }}/tasks/before-symlink-tasks.yml'
+    ansistrano_before_cleanup_tasks_file: '{{ playbook_dir }}/tasks/before-cleanup-tasks.yml'
 
     ansistrano_shared_paths:
-      - "web/sites/default/files"
+      - 'web/sites/default/files'
 
     ansistrano_shared_files:
-      - "web/sites/default/settings.live.php"
+      - 'web/sites/default/settings.live.php'

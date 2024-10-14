@@ -1,0 +1,15 @@
+---
+ansistrano_current_dir: current
+
+database_name: '{{ vault_database_name }}'
+database_password: '{{ vault_database_password }}'
+database_user: '{{ vault_database_user }}'
+
+# Path to the  deploy directory
+project_deploy_path: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web/sites
+
+# Path to the root directory
+project_web_root: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web
+
+# Path to the release directory
+project_web_releases_dir: /var/www/clients/{{vault_server_group}}/{{vault_server_client}}/web/sites/releases/

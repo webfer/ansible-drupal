@@ -8,58 +8,65 @@
 # DEBUG
 - name: Print Ansistrano Release Path
   debug:
-    msg: "Ansistrano Release Path: {{ ansistrano_release_path.stdout }}"
-
-# - name: Install Drupal dependencies with Composer
-#   shell: composer install
-#   args:
-#     chdir: "{{ ansistrano_release_path.stdout }}"
-#     creates: "{{ ansistrano_release_path.stdout }}/vendor/autoload.php"
+    msg: 'Ansistrano Release Path: {{ ansistrano_release_path.stdout }}'
 
 # Create the needed directories.
 - name: Check if the "files" directory exists
   stat:
-    path: "{{ ansistrano_shared_path }}/web/sites/default/files"
+    path: '{{ ansistrano_shared_path }}/web/sites/default/files'
   register: result
   tags:
     - ideploy
 
 - name: Creating the public files directory
   file:
-    path: "{{ ansistrano_shared_path }}/web/sites/default/files"
+    path: '{{ ansistrano_shared_path }}/web/sites/default/files'
     state: directory
     recurse: no
-    mode: "u=rwx,g=rwx,o=rx"
+    mode: 'u=rwx,g=rwx,o=rx'
   when: not result.stat.exists
   tags:
     - ideploy
 
 - name: Check if the "private" directory exists
   stat:
-    path: "{{ ansistrano_shared_path }}/private"
+    path: '{{ ansistrano_shared_path }}/private'
   register: result
   tags:
     - ideploy
 
 - name: Creating the private files directory
   file:
-    path: "{{ ansistrano_shared_path }}/private"
+    path: '{{ ansistrano_shared_path }}/private'
     state: directory
     recurse: no
-    mode: "u=rwx,g=rx,o=rx"
+    mode: 'u=rwx,g=rx,o=rx'
   when: not result.stat.exists
   tags:
     - ideploy
 
-# Create the needed shared files.
-- name: Creating the needed shared files
+# Create the needed shared files for the stage environment.
+- name: Creating the needed shared files for the stage environment
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
     remote_src: true
-    mode: "u=rw,g=r,o=r"
+    mode: 'u=rw,g=r,o=r'
   loop:
-    - src: "{{ project_deploy_path }}/default/settings.live.php"
-      dest: "{{ ansistrano_shared_path }}/web/sites/default/settings.live.php"
+    - src: '{{ project_deploy_path }}/default/settings.stage.php'
+      dest: '{{ ansistrano_shared_path }}/web/sites/default/settings.stage.php'
   tags:
-    - ideploy
+    - s_stage
+
+# Create the needed shared files for the live environment.
+- name: Creating the needed shared files for the live environment
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    remote_src: true
+    mode: 'u=rw,g=r,o=r'
+  loop:
+    - src: '{{ project_deploy_path }}/default/settings.live.php'
+      dest: '{{ ansistrano_shared_path }}/web/sites/default/settings.live.php'
+  tags:
+    - s_live
