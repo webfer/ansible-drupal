@@ -1,14 +1,14 @@
 ---
 ansistrano_allow_anonymous_stats: false
-ansistrano_keep_releases: "{{ vault_keep_releases }}"
+ansistrano_keep_releases: '{{ vault_keep_releases }}'
 
-release_drupal_path: "{{ project_web_root }}"
-release_drush_path: "{{ ansistrano_release_path.stdout }}/vendor/bin/drush"
+release_drupal_path: '{{ project_web_root }}'
+release_drush_path: '{{ ansistrano_release_path.stdout }}/vendor/bin/drush'
 
 drupal_install: false
 
 drupal_settings:
-  - drupal_root: "{{ release_drupal_path }}"
+  - drupal_root: '{{ release_drupal_path }}'
     sites:
       - name: default
         filename: settings.stage.php
@@ -18,15 +18,15 @@ drupal_settings:
               default:
                 driver: mysql
                 host: localhost
-                port: "{{ vault_database_port }}"
-                prefix: "{{ vault_database_prefix }}"
-                collation: "{{ vault_database_collation }}"
-                database: "{{ vault_database_name }}"
-                username: "{{ vault_database_user }}"
-                password: "{{ vault_database_password }}"
-                isolevel: "SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED"
+                port: '{{ vault_database_port }}'
+                prefix: '{{ vault_database_prefix }}'
+                collation: '{{ vault_database_collation }}'
+                database: '{{ vault_database_name }}'
+                username: '{{ vault_database_user }}'
+                password: '{{ vault_database_password }}'
+                isolevel: 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'
           extra_parameters: |
             $settings['deployment_identifier'] = '{{ ansistrano_release_version }}';
-            $config['config_split.config_split.develop']['status'] = FALSE;
+            $config['config_split.config_split.dev']['status'] = FALSE;
             $config['config_split.config_split.stage']['status'] = TRUE;
             $config['config_split.config_split.live']['status'] = FALSE;
