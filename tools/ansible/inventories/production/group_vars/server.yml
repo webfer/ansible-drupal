@@ -8,6 +8,7 @@ vault_database_collation: 'xxxx'
 vault_server_client: xxxx
 vault_server_group: xxxx
 vault_keep_releases: xxxx
+vault_backup_keep_count: 5
 
 ansible_user: xxxx
 ansible_host: xxxx
@@ -24,6 +25,7 @@ vault_company_name: xxxx
 # vault_database_collation: Database collation. For Drupal, this field can be "utf8mb4_general_ci" as default.
 # vault_server_client: Server client in the remote server. Example: web1, web133...
 # vault_server_group: Server group in the remote server. Example: client1
+# vault_backup_keep_count: Number ot backups you want to keep
 # vault_keep_releases: Number of releases that you want to use. Example: 2
 # ansible_user: SSH user name.
 # ansible_host: IP address or the server domain. Example:  xxxx or xxxx
