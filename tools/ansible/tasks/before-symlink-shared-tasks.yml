@@ -1,6 +1,64 @@
 ---
 # before-symlink-shared-tasks
 
+# Database backup
+- name: Clearing Drupal cache using Drush on current release
+  shell: |
+    /var/www/clients/{{ vault_server_group }}/{{ vault_server_client }}/web/sites/current/vendor/bin/drush cr
+  args:
+    chdir: '{{ ansistrano_current_dir }}'
+    executable: /bin/bash
+  tags:
+    - import_config
+
+- name: Ensure backup directory exists
+  file:
+    path: '/var/www/clients/{{ vault_server_group }}/{{ vault_server_client }}/private/db_backups'
+    state: directory
+    owner: '{{ vault_server_client }}'
+    group: '{{ vault_server_group }}'
+    mode: '0750'
+  tags:
+    - import_config
+
+- name: Dump Drupal MySQL database before update database
+  shell: |
+    mysqldump -u {{ vault_database_user }} -p'{{ vault_database_password }}' \
+    -h 127.0.0.1 -P {{ vault_database_port }} {{ vault_database_name }} \
+    | gzip > /var/www/clients/{{ vault_server_group }}/{{ vault_server_client }}/private/db_backups/db_backup_{{ ansible_date_time.iso8601_basic | regex_replace('T', '_') | regex_replace('\\..*$', '') }}.sql.gz
+  args:
+    executable: /bin/bash
+  tags:
+    - import_config
+
+# Clean up old backups (keep 5 newest)
+- name: Find all database backup files
+  find:
+    paths: '/var/www/clients/{{ vault_server_group }}/{{ vault_server_client }}/private/db_backups'
+    patterns: 'db_backup_*.sql.gz'
+    age: 0
+    age_stamp: mtime
+    recurse: no
+  register: db_backups
+  tags:
+    - import_config
+
+- name: Determine old database backups to remove
+  set_fact:
+    backups_to_remove: >-
+      {{ (db_backups.files | sort(attribute='mtime', reverse=true) | map(attribute='path') | list)[vault_backup_keep_count:] }}
+  tags:
+    - import_config
+
+- name: Remove old database backups
+  file:
+    path: '{{ item }}'
+    state: absent
+  loop: '{{ backups_to_remove }}'
+  when: backups_to_remove | length > 0
+  tags:
+    - import_config
+
 # Set permissions
 - name: Set directory permissions for release_drupal_path
   file:
@@ -54,8 +112,8 @@
     - unarchive_db
 
 - name: Ensure PyMySQL is installed on the target
-  ansible.builtin.pip:
-    name: PyMySQL
+  ansible.builtin.apt:
+    name: python3-pymysql
     state: present
   tags:
     - db_update
