@@ -24,7 +24,7 @@ function ansible-install() {
     # Move the contents of TARGET_DIR to PROJECT_ROOT.
     echo "Moving contents from $TARGET_DIR to $PROJECT_ROOT"
     # List of files and directories to include
-    INCLUDE=("ansible.cfg" "tools" "vault_pass.txt")
+    INCLUDE=("ansible.cfg" "ansible" "vault_pass.txt")
 
     # Move the contents including only the specified files and directories
     for item in "$TARGET_DIR"/*; do
