@@ -139,9 +139,9 @@ function ansible-deploy() {
 
   # Set the PROVISION_VAULT_FILE based on the environment
   if [[ "$A_OPTION" == "stage" ]]; then
-    PROVISION_VAULT_FILE="${PROJECT_ROOT}/tools/ansible/inventories/stage/group_vars/server.yml"
+    PROVISION_VAULT_FILE="${PROJECT_ROOT}/ansible/core/inventories/stage/group_vars/server.yml"
   elif [[ "$A_OPTION" == "live" ]]; then
-    PROVISION_VAULT_FILE="${PROJECT_ROOT}/tools/ansible/inventories/production/group_vars/server.yml"
+    PROVISION_VAULT_FILE="${PROJECT_ROOT}/ansible/core/inventories/production/group_vars/server.yml"
   fi
 
   # Check if the correct provision_vault file exists and is encrypted
@@ -167,7 +167,7 @@ function ansible-deploy() {
   # Determine the action based on the options
   if [[ "$D_OPTION" == "cleanup-auth" ]]; then
     echo "Executing cleanup-auth path..."
-    ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --tags 'auth_cleanup'
+    ansible-playbook -i ansible/core/inventories/stage/inventory.yml ansible/core/stage-deploy.yml --tags 'auth_cleanup'
   else
     case "${A_OPTION}-${B_OPTION}" in
       stage-install)
@@ -175,9 +175,9 @@ function ansible-deploy() {
         if ask_for_confirmation; then
           if [[ "$C_OPTION" == "with-assets" ]]; then
             echo "Including with-assets in deployment..."
-            ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'import_config, clean_up, auth_cleanup, s_live'
+            ansible-playbook -i ansible/core/inventories/stage/inventory.yml ansible/core/stage-deploy.yml --skip-tags 'import_config, clean_up, auth_cleanup, s_live'
           else
-            ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth_cleanup, s_live'
+            ansible-playbook -i ansible/core/inventories/stage/inventory.yml ansible/core/stage-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth_cleanup, s_live'
           fi
         else
           return 1
@@ -185,16 +185,16 @@ function ansible-deploy() {
         ;;
       stage-update)
         echo "Executing stage-update path..."
-        ansible-playbook -i tools/ansible/inventories/stage/inventory.yml tools/ansible/stage-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth_cleanup, s_live'
+        ansible-playbook -i ansible/core/inventories/stage/inventory.yml ansible/core/stage-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth_cleanup, s_live'
         ;;
       live-install)
         echo "Executing live-install path..."
         if ask_for_confirmation; then
           if [[ "$C_OPTION" == "with-assets" ]]; then
             echo "Including with-assets in deployment..."
-            ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'import_config, clean_up, auth, s_stage'
+            ansible-playbook -i ansible/core/inventories/production/inventory.yml ansible/core/live-deploy.yml --skip-tags 'import_config, clean_up, auth, s_stage'
           else
-            ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth, s_stage'
+            ansible-playbook -i ansible/core/inventories/production/inventory.yml ansible/core/live-deploy.yml --skip-tags 'import_config, deploy_assets, clean_up, auth, s_stage'
           fi
         else
           return 1
@@ -202,7 +202,7 @@ function ansible-deploy() {
         ;;
       live-update)
         echo "Executing live-update path..."
-        ansible-playbook -i tools/ansible/inventories/production/inventory.yml tools/ansible/live-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth, s_stage'
+        ansible-playbook -i ansible/core/inventories/production/inventory.yml ansible/core/live-deploy.yml --skip-tags 'deploy, unarchive_db, db_update, deploy_assets, auth, s_stage'
         ;;
       *)
         echo "Unexpected combination of options."
